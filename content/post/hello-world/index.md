@@ -21,6 +21,6 @@ Moving on...
 
 The purpose of this blog is to follow along on my journey as an IT Technician, improving my knowledge on any areas of IT which serve my purpose, including but not limited to: Scripting/Automation, Microsoft 365 Administration, SecOps, OSINT, Networking, etc.  
 
-For more information about the theme used in this blog, check the documentation: https://docs.stack.jimmycai.com/
+For more information about the theme used in this blog, check the documentation: [Stack - Designed for bloggers](https://docs.stack.jimmycai.com/)
 
 > Photo by [Prawny](https://jooinn.com/world-globe-banner.html) on [Jooinn](https://jooinn.com/world-globe-banner.html)
