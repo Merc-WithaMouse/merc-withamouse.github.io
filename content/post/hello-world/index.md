@@ -13,9 +13,9 @@ tags:
     - Website Design
 ---
 
-Hello World, 
+Hello World,
 
-Today i launch my new blog using Github Pages, Hugo Go and the Hugo theme stack from [CaiJimmy](https://github.com/CaiJimmy/hugo-theme-stack). I previously tested manually deploying a blog using the dot-hugo theme from [Themnefisher](https://github.com/themefisher/) which worked great at the time, but for reasons unknown to me, when i attempted to deploy for real, i experienced critical errors. 
+Today i launch my new blog using Github Pages, Hugo Go and the Hugo theme stack from [CaiJimmy](https://github.com/CaiJimmy/hugo-theme-stack). I previously tested manually deploying a blog using the dot-hugo theme from [Themnefisher](https://github.com/themefisher/) which worked great at the time, but for reasons unknown to me, when i attempted to deploy for real, i experienced critical errors.
 
 Moving on...
 
