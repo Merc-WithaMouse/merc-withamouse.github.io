@@ -18,7 +18,7 @@ subtitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 [sidebar.avatar]
 enabled = true
 local = true
-src = "assets/img/avatar.png"
+src = "content/assets/img/avatar.png"
 
 [article]
 math = false
