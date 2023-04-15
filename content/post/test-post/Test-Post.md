@@ -14,10 +14,11 @@ comments: true
 draft: true
 ---
 
-I'm, just testing out some functions in Hugo - Ignore this, it'll be gone soon. 
+I'm, just testing out some functions in Hugo - Ignore this, it'll be gone soon.
 
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 iwr -useb get.scoop.sh | iex
 ```
+
 Added test message.
