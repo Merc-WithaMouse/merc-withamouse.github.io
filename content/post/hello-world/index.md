@@ -2,7 +2,7 @@
 title: Hello World
 description: Welcome to the blog.
 slug: hello-world
-date: 2023-04-15 17:24:33 UTC
+date: 2023-04-15T17:24:33Z
 image: EarthBanner.jpeg
 categories:
     - Web Design
