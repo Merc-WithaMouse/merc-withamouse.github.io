@@ -27,10 +27,10 @@ I would like to outline some short term professional and personal goals to compl
 
 I'll periodically come back and update this list as tasks are completed.
 
-[ ] Create a script to set the desktop wallpaper & lockscreen image for all users on Windows 10 Pro computers/laptops.
-[ ] Study for and achieve the 'Microsoft 365 Certified: Endpoint Administrator Associate' certification. 
-[ ] Create or locate a logging function to implement into new and existing scripts used internally at work.
-[ ] Update Windows configuration script used where i work.
-[ ] Update this blog with a custom header / banner and custom accent colours.
+*[ ] Create a script to set the desktop wallpaper & lockscreen image for all users on Windows 10 Pro computers/laptops.
+*[ ] Study for and achieve the 'Microsoft 365 Certified: Endpoint Administrator Associate' certification. 
+*[ ] Create or locate a logging function to implement into new and existing scripts used internally at work.
+*[ ] Update Windows configuration script used where i work.
+*[ ] Update this blog with a custom header / banner and custom accent colours.
 
 Thats it for now. 
