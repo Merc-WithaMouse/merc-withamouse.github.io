@@ -21,7 +21,7 @@ Previously when I have looked into this, I have come across _'Personalization CS
 I recently saw in a post on Reddit _(I dont remember what post but if i find it i will link here)_ that this is no longer the case. Looking at the documentation here: [Microsoft - Personalisation CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/personalization-csp), the post was correct.
 
 
-##### Lets get started then...
+#### Lets get started then...
 
 First off, we need to create the following registry key:
 _"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"_
