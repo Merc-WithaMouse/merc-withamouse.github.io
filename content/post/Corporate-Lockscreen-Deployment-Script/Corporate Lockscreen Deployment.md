@@ -57,3 +57,8 @@ New-ItemProperty -Path $RegPath -Name DesktopImagePath -Value $Backgroundimage -
 New-ItemProperty -Path $RegPath -Name DesktopImageUrl -Value $Backgroundimage -PropertyType String -Force | Out-Null
 New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
 ```
+Now, we can bundle all these components together to form a simple function to implement in the configuration script mentioned earlier.
+
+``` powershell
+
+```
