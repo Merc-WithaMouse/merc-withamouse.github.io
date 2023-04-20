@@ -60,5 +60,21 @@ New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType 
 Now, we can bundle all these components together to form a simple function to implement in the configuration script mentioned earlier.
 
 ``` powershell
+# Create PersonalizationCSP Registry Key
+New-Item HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP -Force  
 
+# Declare Variables
+$RegPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"
+$BackgroundImage = "C:\Images\Background.png"
+$LockScreenImage = "C:\Images\Background.png"
+
+# Set Lockscreen Registry Keys
+New-ItemProperty -Path $RegPath -Name LockScreenImagePath -Value $LockScreenImage -PropertyType String -Force | Out-Null
+New-ItemProperty -Path $RegPath -Name LockScreenImageUrl -Value $LockScreenImage -PropertyType String -Force | Out-Null
+New-ItemProperty -Path $RegPath -Name LockScreenImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
+
+#Background Wallpaper Registry Keys
+New-ItemProperty -Path $RegPath -Name DesktopImagePath -Value $Backgroundimage -PropertyType String -Force | Out-Null
+New-ItemProperty -Path $RegPath -Name DesktopImageUrl -Value $Backgroundimage -PropertyType String -Force | Out-Null
+New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
 ```
