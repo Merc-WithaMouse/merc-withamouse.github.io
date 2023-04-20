@@ -8,6 +8,13 @@ license:
 hidden: false
 comments: true
 draft: true
+categories:
+    - Windows Configuration
+tags:
+    - Windows 10
+    - Windows 10 Configuration
+    - Scripting
+    - Automation
 ---
 
 #### So, lets start checking off some of the goals outlined in my previous post...  
