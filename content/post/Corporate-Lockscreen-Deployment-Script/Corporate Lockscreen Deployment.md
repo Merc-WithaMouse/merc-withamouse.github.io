@@ -23,7 +23,7 @@ I recently saw in a post on Reddit _(I dont remember what post but if i find it 
 
 #### Lets get started then...
 
-A quick Google search tells me what registry keys and values will be needed here so thats half the battle done.
+Unfortunately, this documentation does not include any reference on application via Registry but luckily, a quick Google search tells me what keys and values will be needed so thats half the battle done.
 
 First off, we need to create the following registry key:
 _"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"_
