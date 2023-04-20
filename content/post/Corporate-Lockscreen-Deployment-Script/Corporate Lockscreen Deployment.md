@@ -2,7 +2,7 @@
 title: "Corporate Lockscreen Deployment"
 description: 
 date: 2023-04-20T10:03:47+01:00
-image: MicrosoftLogo.png
+image: MicrosoftLogo.PNG
 math: 
 license: 
 hidden: false
