@@ -14,7 +14,7 @@ draft: true
 
 At the MSP where I work, we configure a fair amount of Windows computers _(like many others in the industry)_.  
 
-I have already created a configuration script that does most of the heavy lifting. This script is due a massive overhaul but this can wait. For now, I need to create a function that sets the background and lockscreen images for all users.
+I have already created a configuration script that does most of the heavy lifting. This script is due a massive overhaul but this can wait. For now, I need to create a function that sets the background wallpaper and lockscreen images for all users.
 
 Previously when I have looked into this, I have come across _'Personalization CSP'_ in Microsoft documentation but hit a roadblock when i found that this was restricted to Education and Enterprise SKUs only.
 
