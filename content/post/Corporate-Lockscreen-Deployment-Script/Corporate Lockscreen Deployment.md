@@ -12,7 +12,7 @@ draft: true
 
 #### So, lets start checking off some of the goals outlined in my previous post...  
 
-At the MSP where I work, we configure a fair amount of Windows computers (like many other in the industry).  
+At the MSP where I work, we configure a fair amount of Windows computers _(like many other in the industry)_.  
 
 I have already created a configuration script that does most of the heavy lifting. This script is due a massive overhaul but this can wait. For now, I need to create a function that sets the background and lockscreen images for all users.
 
