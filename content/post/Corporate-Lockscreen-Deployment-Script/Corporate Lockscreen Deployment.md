@@ -79,4 +79,6 @@ New-ItemProperty -Path $RegPath -Name DesktopImageUrl -Value $Backgroundimage -P
 New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
 ```
 
-Running this function in a test environment and then restarting the endpoint, I can see the specified images have been applied as the background wallpaper & lockscreen as desired. This does prevent standard users from changing their background and lockscreens, so i may look for a less restrictive way to achieve this but for now, this'll do.
+Running this function in a test environment and then restarting the endpoint, I can see the specified images have been applied as the background wallpaper & lockscreen as desired.  
+
+This does prevent standard users from changing their background and lockscreens, so i may look for a less restrictive way to achieve this but for now, this'll do.
