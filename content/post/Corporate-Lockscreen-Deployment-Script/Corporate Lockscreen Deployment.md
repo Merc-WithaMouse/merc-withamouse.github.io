@@ -23,4 +23,37 @@ I recently saw in a post on Reddit (I dont remember what post but if i find it i
 
 ##### Lets get started then...
 
+First off, we need to create the following registry key:
+_"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"_
 
+``` powershell
+# Create PersonalizationCSP Registry Key
+New-Item HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP -Force
+```  
+
+Next, we'll need to declare some variables to contain the Registry Key path and image files.  
+
+``` powershell
+# Declare Variables
+$RegPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"
+$BackgroundImage = "C:\Datasystems\Site Installation Pack\Background.png"
+$LockScreenImage = "C:\Datasystems\Site Installation Pack\Background.png"
+```
+
+Now, we can start to set the registry key values. We'll start with the lockscreen values.
+
+``` powershell
+# Set Lockscreen Registry Keys
+New-ItemProperty -Path $RegPath -Name LockScreenImagePath -Value $LockScreenImage -PropertyType String -Force | Out-Null
+New-ItemProperty -Path $RegPath -Name LockScreenImageUrl -Value $LockScreenImage -PropertyType String -Force | Out-Null
+New-ItemProperty -Path $RegPath -Name LockScreenImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
+```
+
+Finally, the desktop background image values.
+
+``` powershell
+#Background Wallpaper Registry Keys
+New-ItemProperty -Path $RegPath -Name DesktopImagePath -Value $Backgroundimage -PropertyType String -Force | Out-Null
+New-ItemProperty -Path $RegPath -Name DesktopImageUrl -Value $Backgroundimage -PropertyType String -Force | Out-Null
+New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
+```
