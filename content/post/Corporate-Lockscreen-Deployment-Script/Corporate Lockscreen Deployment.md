@@ -11,3 +11,10 @@ draft: true
 ---
 
 #### 
+
+
+
+
+
+
+[Microsoft - Personalisation CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/personalization-csp)
