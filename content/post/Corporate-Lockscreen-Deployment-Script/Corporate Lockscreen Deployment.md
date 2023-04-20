@@ -18,7 +18,7 @@ I have already created a configuration script that does most of the heavy liftin
 
 Previously when I have looked into this, I have come across _'Personalization CSP'_ in Microsoft documentation but hit a roadblock when i found that this was restricted to Education and Enterprise SKUs only.
 
-I recently saw in a post on Reddit _(I dont remember what post but if i find it i will link here)_ that this is no longer the case. Looking at the documentation here [Microsoft - Personalisation CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/personalization-csp), the post was correct.
+I recently saw in a post on Reddit _(I dont remember what post but if i find it i will link here)_ that this is no longer the case. Looking at the documentation here: [Microsoft - Personalisation CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/personalization-csp), the post was correct.
 
 
 ##### Lets get started then...
