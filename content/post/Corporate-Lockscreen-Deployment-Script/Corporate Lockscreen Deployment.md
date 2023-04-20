@@ -36,8 +36,8 @@ Next, we'll need to declare some variables to contain the Registry Key path and 
 ``` powershell
 # Declare Variables
 $RegPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"
-$BackgroundImage = "C:\Datasystems\Site Installation Pack\Background.png"
-$LockScreenImage = "C:\Datasystems\Site Installation Pack\Background.png"
+$BackgroundImage = "C:\Images\Background.png"
+$LockScreenImage = "C:\Images\Background.png"
 ```
 
 Now, we can start to set the registry key values. We'll start with the lockscreen values.
