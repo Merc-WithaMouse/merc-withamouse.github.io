@@ -152,7 +152,7 @@ $SelectedFile = ($FileBrowser.FileName)
 }
 ```
 
-And there we have it. When this is ran, the familiar browse or open dialog is produced. A file can then be selected, which eill be stored in OpenFileDialog.
+And there we have it. When this is ran, the familiar browse or open dialog is produced. A file can then be selected, which will be stored in OpenFileDialog.
 
 If we piece these two functions together, we have a working solution for deploying corporate lock screen and desktop images, which we can implement into our main Windows configuration script.
 
