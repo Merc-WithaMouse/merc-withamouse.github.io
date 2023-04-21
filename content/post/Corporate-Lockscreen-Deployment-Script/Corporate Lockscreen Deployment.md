@@ -13,6 +13,7 @@ categories:
 tags:
     - Windows 10
     - Windows 10 Configuration
+    - PowerShell
     - Scripting
     - Automation
 ---
@@ -91,3 +92,53 @@ New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType 
 Calling this function in a test environment and then restarting the endpoint, I can see the specified images have been applied as the background wallpaper & lockscreen as desired.  
 
 This does prevent standard users from changing their background and lockscreens, so i may look for a less restrictive way to achieve this but for now, this'll do.
+
+---
+
+#### Easy enough, lets go for bonus points...
+
+To save naming both the image files used by each individual client the same file name (which is not really feasible), It would be helpful to have the image file specified by the technician running the configuration script. Equally, having this achieved using a familiar "Browse" dialog to eliminate any cances of mistyping would be incredibly beneficial for the less experienced technicians.
+
+Back to Google I go.
+
+Again, after a short search I came across an article that appears to fit the bill: [4Sysops - How to create an open file dialog with PowerShell](https://4sysops.com/archives/how-to-create-an-open-file-folder-dialog-box-with-powershell/)
+
+So according to the article, to start off, we will need to load the System.Windows.Forms assembly.
+
+``` powershell
+# Load the System.Windows.Forms assembly 
+Add-Type -AssemblyName System.Windows.Forms
+```
+
+Next, we will create a Open File Dialog instance.
+
+``` powershell
+# Instantiate an OpenFileDialog object using New-Object.
+$FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ InitialDirectory = "C:\" }
+```
+Finally, we just need to display the dialog instance.
+
+``` powershell
+# Display the Browse dialog
+$null = $FileBrowser.ShowDialog() 
+```
+
+We can then, yet again wrap this into a simple function which can be implemented into scripts as needed.
+
+``` powershell
+function Get-OpenFileDialog{
+
+# Load the System.Windows.Forms assembly 
+Add-Type -AssemblyName System.Windows.Forms
+
+# Instantiate an OpenFileDialog object using New-Object.
+$FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ InitialDirectory = "C:\" }
+
+# Display the Browse dialog
+$null = $FileBrowser.ShowDialog() 
+
+$SelectedFile = ($FileBrowser.FileName)
+}
+```
+
+
