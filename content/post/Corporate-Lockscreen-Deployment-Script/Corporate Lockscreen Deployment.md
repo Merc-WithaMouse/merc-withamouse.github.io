@@ -95,6 +95,8 @@ This does prevent standard users from changing their background and lockscreens,
 
 ---
 
+
+
 #### Easy enough, lets go for bonus points...
 
 To save naming both the image files used by each individual client the same file name (which is not really feasible), It would be helpful to have the image file specified by the technician running the configuration script. Equally, having this achieved using a familiar "Browse" dialog to eliminate any cances of mistyping would be incredibly beneficial for the less experienced technicians.
@@ -116,6 +118,15 @@ Next, we will create a Open File Dialog instance.
 # Instantiate an OpenFileDialog object using New-Object.
 $FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ InitialDirectory = "C:\" }
 ```
+If we want, we can even restrict the file type that can be selected.
+
+``` powershell
+$FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ 
+    InitialDirectory = [Environment]::GetFolderPath('Desktop') 
+    Filter = 'Documents (*.docx)|*.docx|SpreadSheet (*.xlsx)|*.xlsx'
+}
+```
+ 
 Finally, we just need to display the dialog instance.
 
 ``` powershell
@@ -141,4 +152,7 @@ $SelectedFile = ($FileBrowser.FileName)
 }
 ```
 
+And there we have it. When this is ran, the familiar browse or open dialog is produced. A file can then be selected, which eill be stored in OpenFileDialog.
+
+If we piece these two functions together, we have a working solution for deploying corporate lock screen and desktop images, which we can implement into our main Windows configuration script.
 
