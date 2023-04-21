@@ -41,6 +41,7 @@ _"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"_
 New-Item HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP -Force
 ```  
 
+
 Next, we'll need to declare some variables to contain the Registry Key path and image files.  
 
 ``` powershell
@@ -49,6 +50,7 @@ $RegPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"
 $BackgroundImage = "C:\Images\Background.png"
 $LockScreenImage = "C:\Images\Background.png"
 ```
+
 
 Now, we can start to set the registry key values. We'll start with the lockscreen values.
 
@@ -59,6 +61,7 @@ New-ItemProperty -Path $RegPath -Name LockScreenImageUrl -Value $LockScreenImage
 New-ItemProperty -Path $RegPath -Name LockScreenImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
 ```
 
+
 Finally, the desktop background image values.
 
 ``` powershell
@@ -67,6 +70,7 @@ New-ItemProperty -Path $RegPath -Name DesktopImagePath -Value $Backgroundimage -
 New-ItemProperty -Path $RegPath -Name DesktopImageUrl -Value $Backgroundimage -PropertyType String -Force | Out-Null
 New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
 ```
+
 To finish this up, we can bundle all these components together to form a simple function to implement in the configuration script mentioned earlier.
 
 ``` powershell
@@ -89,9 +93,12 @@ New-ItemProperty -Path $RegPath -Name DesktopImageUrl -Value $Backgroundimage -P
 New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
 ```
 
+
 Calling this function in a test environment and then restarting the endpoint, I can see the specified images have been applied as the background wallpaper & lockscreen as desired.  
 
 This does prevent standard users from changing their background and lockscreens, so i may look for a less restrictive way to achieve this but for now, this'll do.
+
+
 
 ---
 
@@ -112,12 +119,14 @@ So according to the article, to start off, we will need to load the System.Windo
 Add-Type -AssemblyName System.Windows.Forms
 ```
 
+
 Next, we will create a Open File Dialog instance.
 
 ``` powershell
 # Instantiate an OpenFileDialog object using New-Object.
 $FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ InitialDirectory = "C:\" }
 ```
+
 If we want, we can even restrict the file type that can be selected.
 
 ``` powershell
@@ -127,12 +136,14 @@ $FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{
 }
 ```
  
+
 Finally, we just need to display the dialog instance.
 
 ``` powershell
 # Display the Browse dialog
 $null = $FileBrowser.ShowDialog() 
 ```
+
 
 We can then, yet again wrap this into a simple function which can be implemented into scripts as needed.
 
@@ -151,6 +162,7 @@ $null = $FileBrowser.ShowDialog()
 $SelectedFile = ($FileBrowser.FileName)
 }
 ```
+
 
 And there we have it. When this is ran, the familiar browse or open dialog is produced. A file can then be selected, which will be stored in OpenFileDialog.
 
