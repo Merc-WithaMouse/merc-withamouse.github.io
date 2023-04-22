@@ -43,7 +43,7 @@ New-Item HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP -For
 ```  
 
 
-Next, we'll need to declare some variables to contain the Registry Key path and image files.  
+Next, we'll need to declare some variables to contain the registry key path and image files.  
 
 ``` powershell
 # Declare Variables
@@ -53,7 +53,7 @@ $LockScreenImage = "C:\Images\Background.png"
 ```
 
 
-Now, we can start to set the registry key values. We'll start with the lockscreen values.
+Now, we can set the registry key values. We'll start with the lockscreen values.
 
 ``` powershell
 # Set Lockscreen Registry Keys
