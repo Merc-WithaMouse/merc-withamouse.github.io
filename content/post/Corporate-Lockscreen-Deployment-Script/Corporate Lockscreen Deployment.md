@@ -2,9 +2,10 @@
 title: "Corporate Lockscreen Deployment"
 description: 
 date: 2023-04-20T10:03:47+01:00
-image: PowerShellBanner.PNG
+image: WindowsLockScreen.jpg
 math: 
 license: 
+toc: false
 hidden: false
 comments: true
 draft: true
@@ -34,7 +35,7 @@ I recently saw in a post on Reddit _(I dont remember what post but if i find it 
 Unfortunately, this documentation does not include any reference on application via Registry but luckily, a quick Google search tells me what keys and values will be needed. So thats half the battle done.
 
 First off, we need to create the following registry key:
-_"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"_
+_"`HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP`"_
 
 ``` powershell
 # Create PersonalizationCSP Registry Key
@@ -163,8 +164,15 @@ $SelectedFile = ($FileBrowser.FileName)
 }
 ```
 
-
 And there we have it. When this is ran, the familiar browse or open dialog is produced. A file can then be selected, which will be stored in OpenFileDialog.
 
 If we piece these two functions together, we have a working solution for deploying corporate lock screen and desktop images, which we can implement into our main Windows configuration script.
+
+Something like this should do...
+
+``` powershell
+
+
+
+```
 
