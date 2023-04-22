@@ -72,7 +72,7 @@ New-ItemProperty -Path $RegPath -Name DesktopImageUrl -Value $Backgroundimage -P
 New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
 ```
 
-To finish this up, we can bundle all these components together to form a simple function to implement in the configuration script mentioned earlier.
+To finish this up, we can bundle all these components together to form a simple function that we can implement in the configuration script mentioned earlier.
 
 ``` powershell
 # Create PersonalizationCSP Registry Key
