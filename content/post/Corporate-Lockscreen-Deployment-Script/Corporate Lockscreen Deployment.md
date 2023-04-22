@@ -63,7 +63,7 @@ New-ItemProperty -Path $RegPath -Name LockScreenImageStatus -Value 1 -PropertyTy
 ```
 
 
-Finally, the desktop background image values.
+And finally, the desktop background image values.
 
 ``` powershell
 #Background Wallpaper Registry Keys
