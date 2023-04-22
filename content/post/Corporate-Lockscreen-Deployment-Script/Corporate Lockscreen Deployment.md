@@ -10,7 +10,7 @@ hidden: false
 comments: true
 draft: false
 categories:
-    - Windows Configuration
+    - Windows Configuration - PowerShell
 tags:
     - Windows 10
     - Windows 10 Configuration
