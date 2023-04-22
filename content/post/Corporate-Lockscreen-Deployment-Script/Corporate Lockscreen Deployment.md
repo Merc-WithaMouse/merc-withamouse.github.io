@@ -1,14 +1,14 @@
 ---
 title: "Corporate Lockscreen Deployment"
 description: 
-date: 2023-04-20T10:03:47+01:00
+date: 2023-04-22T14:03:47+01:00
 image: WindowsLockScreen.jpg
 math: 
 license: 
 toc: false
 hidden: false
 comments: true
-draft: true
+draft: false
 categories:
     - Windows Configuration
 tags:
@@ -171,8 +171,38 @@ If we piece these two functions together, we have a working solution for deployi
 Something like this should do...
 
 ``` powershell
+function Get-OpenFileDialog{
+# Load the System.Windows.Forms assembly.
+Add-Type -AssemblyName System.Windows.Forms
+# Instantiate an OpenFileDialog object using New-Object.
+$FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ InitialDirectory = "C:\" }
+# Display the Browse dialog.
+$null = $FileBrowser.ShowDialog()
+$SelectedFile = ($FileBrowser.FileName)
+$SelectedFile
+}
 
 
-
+function Set-CorporateLockScreen{
+# Create PersonalizationCSP Registry Key.
+New-Item HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP -Force | Out-Null
+# Declare Variables.
+$RegPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"
+$BackgroundImage = (Get-OpenFileDialog)
+$LockScreenImage = (Get-OpenFileDialog)
+# Set Lockscreen Registry Keys
+New-ItemProperty -Path $RegPath -Name LockScreenImagePath -Value $LockScreenImage -PropertyType String -Force | Out-Null
+New-ItemProperty -Path $RegPath -Name LockScreenImageUrl -Value $LockScreenImage -PropertyType String -Force | Out-Null
+New-ItemProperty -Path $RegPath -Name LockScreenImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
+#Background Wallpaper Registry Keys
+New-ItemProperty -Path $RegPath -Name DesktopImagePath -Value $Backgroundimage -PropertyType String -Force | Out-Null
+New-ItemProperty -Path $RegPath -Name DesktopImageUrl -Value $Backgroundimage -PropertyType String -Force | Out-Null
+New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
+}
 ```
 
+After adding this to our main configuration script, we can call the function `Set-CorporateLockScreen` in the execution section of the script. We will then be prompted to select the files for the lockscreen and background and then the registry keys will be applied. 
+
+Part of the standard configuration workflow _(when using the script I created some time ago) is already to restart the endpoint manualy upon script completion. As such, we do not need to consider this in these functions. If we were implementing these functions elsewhere, a system restart would need to be factored in.
+
+### On to the next task...
