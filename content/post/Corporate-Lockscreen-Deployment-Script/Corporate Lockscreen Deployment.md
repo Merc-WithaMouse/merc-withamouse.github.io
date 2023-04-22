@@ -2,7 +2,7 @@
 title: "Corporate Lockscreen Deployment"
 description: 
 date: 2023-04-22T14:03:47+01:00
-image: MicrosoftPowershell.PNG
+image: WindowsLockScreen.jpg
 math: 
 license: 
 toc: false
