@@ -1,6 +1,6 @@
 ---
 title: "Corporate Lockscreen Deployment"
-description: 
+description: Setting the background and lockscreen image for all users on company computers. Bonus: Using PowerShell to select a file through a GUI file browser.
 date: 2023-04-22T14:03:47+01:00
 image: "/post/Corporate-Lockscreen-Deployment-Script/MicrosoftPowershell.PNG"
 math: 
