@@ -10,7 +10,7 @@ comments: true
 draft: true
 ---
 
-# Hugo
+# Hugo Commands
 ### Create a new Hugo MD post: 
 `hugo new post\md-cheatsheet\cheatsheet.md`
 
@@ -20,7 +20,7 @@ draft: true
 `hugo Server --buildFuture    # or -F`  
 
 
-# Markdown
+# Markdown Syntax
 <!-- Headings -->
 # Heading 1
 ## Heading 2
