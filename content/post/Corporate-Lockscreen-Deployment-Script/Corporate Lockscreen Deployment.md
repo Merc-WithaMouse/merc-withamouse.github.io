@@ -17,7 +17,7 @@ tags:
     - Automation
 ---
 
-#### So, lets start checking off some of the goals outlined in my previous post...  
+### So, lets start checking off some of the goals outlined in my previous post...  
 
 At the MSP where I work, we configure a fair amount of Windows computers _(like many others in the industry)_.  
 
