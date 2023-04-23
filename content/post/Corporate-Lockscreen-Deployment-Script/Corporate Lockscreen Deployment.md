@@ -10,7 +10,7 @@ hidden: false
 comments: true
 draft: false
 categories:
-    - Windows Configuration - PowerShell
+    - PowerShell Automation
 tags:
     - Windows 10
     - Windows 10 Configuration
