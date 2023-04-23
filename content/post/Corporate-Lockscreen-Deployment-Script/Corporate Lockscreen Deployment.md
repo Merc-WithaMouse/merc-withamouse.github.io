@@ -209,7 +209,7 @@ New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType 
 }
 ```
 
-After adding this to our main configuration script, we can call the function `Set-CorporateLockScreen` in the execution section of the script. We will then be prompted to select the files for the lockscreen and background and then the registry keys will be applied. 
+After adding this to our main configuration script, we can call the function `Set-CorporateLockScreen` in the execution section of the script. We will then be prompted to select the files for the lockscreen and background and finally the registry keys will be applied. 
 
 Part of the standard configuration workflow _(when using the script I created some time ago) is already to restart the endpoint manualy upon script completion. As such, we do not need to consider this in these functions. If we were implementing these functions elsewhere, a system restart would need to be factored in.
 
