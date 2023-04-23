@@ -23,10 +23,10 @@ url = "https://twitter.com/merc_withamouse"
 [social.params]
 icon = "brand-twitter"
 
-[[social]]
-identifier = "reddit"
-name = "Reddit"
-url = "https://reddit.com/u/mercwithamouth420"
+#[[social]]
+#identifier = "reddit"
+#name = "Reddit"
+#url = "https://reddit.com/u/mercwithamouth420"
 
-[social.params]
-icon = "brand-reddit"
+#[social.params]
+#icon = "brand-reddit"
