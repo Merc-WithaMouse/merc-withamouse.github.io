@@ -1,6 +1,6 @@
 ---
 title: "Corporate Lockscreen Deployment"
-description: "Setting the background and lockscreen image with PowerShell, plus a bonus; Using PowerShell to select a file through a GUI file browser."
+description: "Setting the background and lockscreen image with PowerShell, plus a bonus; Using PowerShell to select a file through a file browser."
 date: 2023-04-22T14:03:47+01:00
 image: "/post/Corporate-Lockscreen-Deployment-Script/MicrosoftPowershell.PNG"
 toc: false
