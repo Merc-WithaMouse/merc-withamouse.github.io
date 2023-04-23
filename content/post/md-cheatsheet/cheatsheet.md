@@ -15,9 +15,9 @@ draft: true
 `hugo new post\md-cheatsheet\cheatsheet.md`
 
 ### Preview Drafts, Scheduled and Expired Posts
-`hugo Server --buildDrafts    # or -D`
-`hugo Server --buildExpired   # or -E`
-`hugo Server --buildFuture    # or -F`
+`hugo Server --buildDrafts    # or -D`  
+`hugo Server --buildExpired   # or -E`  
+`hugo Server --buildFuture    # or -F`  
 
 
 # Markdown
