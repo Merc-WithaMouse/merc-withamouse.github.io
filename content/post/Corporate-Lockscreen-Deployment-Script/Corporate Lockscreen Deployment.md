@@ -136,7 +136,15 @@ $FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{
     Filter = 'Documents (*.docx)|*.docx|SpreadSheet (*.xlsx)|*.xlsx'
 }
 ```
- 
+
+To be more appropriate to our needs, lets filter to images instead.
+
+``` powershell
+$FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ 
+    InitialDirectory = [Environment]::GetFolderPath('Desktop') 
+    Filter = 'Images (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp'
+}
+```
 
 Finally, we just need to display the dialog instance.
 
