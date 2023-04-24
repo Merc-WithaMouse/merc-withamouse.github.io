@@ -74,6 +74,7 @@ New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType 
 To finish this up, we can bundle all these components together to form a simple function that we can implement in the configuration script mentioned earlier.
 
 ``` powershell
+function Set-CorporateLockScreen{
 # Create PersonalizationCSP Registry Key
 New-Item HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP -Force  
 
@@ -91,6 +92,7 @@ New-ItemProperty -Path $RegPath -Name LockScreenImageStatus -Value 1 -PropertyTy
 New-ItemProperty -Path $RegPath -Name DesktopImagePath -Value $Backgroundimage -PropertyType String -Force | Out-Null
 New-ItemProperty -Path $RegPath -Name DesktopImageUrl -Value $Backgroundimage -PropertyType String -Force | Out-Null
 New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
+}
 ```
 
 
@@ -157,17 +159,13 @@ We can then, yet again wrap this into a simple function which can be implemented
 
 ``` powershell
 function Get-OpenFileDialog{
-
-# Load the System.Windows.Forms assembly 
-Add-Type -AssemblyName System.Windows.Forms
-
-# Instantiate an OpenFileDialog object using New-Object.
-$FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ InitialDirectory = "C:\" }
-
-# Display the Browse dialog
-$null = $FileBrowser.ShowDialog() 
-
-$SelectedFile = ($FileBrowser.FileName)
+    # Load the System.Windows.Forms assembly 
+    Add-Type -AssemblyName System.Windows.Forms
+    # Instantiate an OpenFileDialog object using New-Object.
+    $FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ InitialDirectory = "C:\" }
+    # Display the Browse dialog
+    $null = $FileBrowser.ShowDialog() 
+    $SelectedFile = ($FileBrowser.FileName)
 }
 ```
 
@@ -180,35 +178,39 @@ Something like this should do...
 ``` powershell
 function Get-OpenFileDialog{
 # Load the System.Windows.Forms assembly.
-Add-Type -AssemblyName System.Windows.Forms
+    Add-Type -AssemblyName System.Windows.Forms
 # Instantiate an OpenFileDialog object using New-Object.
-$FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ InitialDirectory = "C:\" }
+    $FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ 
+        InitialDirectory = "C:\"
+        Filter = 'Images (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp'
+    }
 # Display the Browse dialog.
-$null = $FileBrowser.ShowDialog()
-$SelectedFile = ($FileBrowser.FileName)
-$SelectedFile
+    $null = $FileBrowser.ShowDialog()
+    $SelectedFile = ($FileBrowser.FileName)
+    $SelectedFile
 }
-
 
 function Set-CorporateLockScreen{
 # Create PersonalizationCSP Registry Key.
 New-Item HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP -Force | Out-Null
 # Declare Variables.
-$RegPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"
-$BackgroundImage = (Get-OpenFileDialog)
-$LockScreenImage = (Get-OpenFileDialog)
-# Set Lockscreen Registry Keys
-New-ItemProperty -Path $RegPath -Name LockScreenImagePath -Value $LockScreenImage -PropertyType String -Force | Out-Null
-New-ItemProperty -Path $RegPath -Name LockScreenImageUrl -Value $LockScreenImage -PropertyType String -Force | Out-Null
-New-ItemProperty -Path $RegPath -Name LockScreenImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
-#Background Wallpaper Registry Keys
-New-ItemProperty -Path $RegPath -Name DesktopImagePath -Value $Backgroundimage -PropertyType String -Force | Out-Null
-New-ItemProperty -Path $RegPath -Name DesktopImageUrl -Value $Backgroundimage -PropertyType String -Force | Out-Null
-New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
+    $RegPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"
+    Write-Host "Please Select an Image File for the Background Image."
+    $BackgroundImage = (Get-OpenFileDialog)
+    Write-Host "Please Select an Image File for the Lockscreen Image."
+    $LockScreenImage = (Get-OpenFileDialog)
+    # Set Lockscreen Registry Keys
+    New-ItemProperty -Path $RegPath -Name LockScreenImagePath -Value $LockScreenImage -PropertyType String -Force | Out-Null
+    New-ItemProperty -Path $RegPath -Name LockScreenImageUrl -Value $LockScreenImage -PropertyType String -Force | Out-Null
+    New-ItemProperty -Path $RegPath -Name LockScreenImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
+    #Background Wallpaper Registry Keys
+    New-ItemProperty -Path $RegPath -Name DesktopImagePath -Value $Backgroundimage -PropertyType String -Force | Out-Null
+    New-ItemProperty -Path $RegPath -Name DesktopImageUrl -Value $Backgroundimage -PropertyType String -Force | Out-Null
+    New-ItemProperty -Path $RegPath -Name DesktopImageStatus -Value 1 -PropertyType DWORD -Force | Out-Null
 }
 ```
 
-After adding this to our main configuration script, we can call the function `Set-CorporateLockScreen` in the execution section of the script. We will then be prompted to select the files for the lockscreen and background and finally the registry keys will be applied. 
+After adding this to our main configuration script, we can call the function `Set-CorporateLockScreen` in the execution section. We will then be prompted to select the files for the lockscreen and background and finally the registry keys will be applied. 
 
 Part of the standard workflow _(when using the script I created some time ago)_ is already to restart the endpoint manualy upon script completion. As such, we do not need to consider this in these functions. If we were implementing these functions elsewhere, a system restart would need to be factored in.
 
