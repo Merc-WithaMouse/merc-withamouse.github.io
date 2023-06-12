@@ -29,4 +29,4 @@ name = "Reddit"
 url = "https://reddit.com/u/mercwithamouth420"
 
 #[social.params]
-# icon = "brand-reddit"
+icon = "brand-reddit"
