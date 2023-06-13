@@ -45,7 +45,7 @@ New-Item HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP -For
 Next, we'll need to declare some variables to contain the registry key path and image files.  
 
 ``` powershell
-# Declare Variables
+# Declare Variables 
 $RegPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"
 $BackgroundImage = "C:\Images\Background.png"
 $LockScreenImage = "C:\Images\Background.png"
@@ -108,7 +108,7 @@ This does prevent standard users from changing their background and lockscreens,
 
 #### Easy enough, lets go for bonus points...
 
-To save naming both the image files used by each individual client the same file name (which is not really feasible), It would be helpful to have the image file specified by the technician running the configuration script. Equally, having this achieved using a familiar "Browse" dialog to eliminate any cances of mistyping would be incredibly beneficial for the less experienced technicians.
+To save from having to name our image files a generic name for all our clients, it would be helpfult to be able to declare the image "On the fly". If this can be achieved with a familiar file explorer "Browse" window, even better. 
 
 Back to Google I go.
 
