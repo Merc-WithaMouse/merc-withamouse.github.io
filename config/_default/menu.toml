@@ -30,3 +30,11 @@ url = "https://reddit.com/u/mercwithamouth420"
 
 [social.params]
 icon = "brand-reddit"
+
+[[social]]
+identifier = "linkedin"
+name = "LinkedIn"
+url = "https://www.linkedin.com/in/robert-j-ross"
+
+[social.params]
+icon = "brand-linkedin"
