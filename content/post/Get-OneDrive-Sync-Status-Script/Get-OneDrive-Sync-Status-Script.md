@@ -6,7 +6,7 @@ image: "/post/OneDrive-File-Attributes/PowerShell-OneDrive.jpg"
 toc: false
 hidden: true
 comments: true
-draft: falseGet-OneDrive-Sync-Status-Script
+draft: true
 authors:
     - Your Name
 categories:
