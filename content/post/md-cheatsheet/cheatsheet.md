@@ -40,6 +40,7 @@ _This text_ is italic
 __This text__ is italic
 
 <!-- Strikethrough -->
+~ Test  ~ <!-- Remove Spaces -->
 ~~This text~~ is strikethrough
 
 <!-- Horizontal Rule -->
