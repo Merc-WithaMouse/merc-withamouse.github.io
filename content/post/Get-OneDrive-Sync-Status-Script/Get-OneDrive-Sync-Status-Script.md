@@ -1,11 +1,10 @@
 ---
 title: "Getting OneDrive File States with PowerShell"
 description: "Unlock the power of PowerShell to delve into the attributes of local OneDrive files and interpret their File On Demand states."
-date: 2023-08-11T06:00:00+01:00
+date: 2023-08-12T06:00:00+01:00
 image: "/post/Get-OneDrive-Sync-Status-Script/OneDriveBanner.jpg"
-
 toc: false
-hidden: false
+hidden: true
 comments: true
 draft: false
 authors:
