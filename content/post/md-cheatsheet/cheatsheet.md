@@ -128,6 +128,7 @@ ___
 
 
 # Images Sizes
+[Reference](https://www.zerostatic.io/docs/hugo-advance/guides/image-sizes/)
 ## Hero Image
 The fullscreen image that runs across the top of pages in the “hero” section.
 ![hero image example](/Content/post/md-cheatsheet/assets/hero-image.png)
