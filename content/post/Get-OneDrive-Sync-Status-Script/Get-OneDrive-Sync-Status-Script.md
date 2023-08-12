@@ -51,7 +51,7 @@ The reference script came with a table that associated attribute values with fil
 
 However, during my testing phase, I realized that the provided values didn't align correctly with OneDrive's states on my machine. So, I rolled up my sleeves and manually tested different sync states to identify the correct attribute values and their corresponding human-readable states.
 
-For my testing (and ultimately my end goal), I took the reference script and adjusted it to drill down to the current users Commercial OneDrive directory.
+For my testing (and ultimately my end goal), I took the reference script and adjusted it to drill down to the current users Commercial OneDrive directory. This allowed me (with toggling sync states multiple times) to identify the different attributes assiociated with different states.
 
 ```powershell
 get-childitem $ENV:OneDriveCommercial -Force -File -Recurse | 
