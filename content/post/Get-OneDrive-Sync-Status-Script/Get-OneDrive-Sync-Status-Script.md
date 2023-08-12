@@ -71,7 +71,8 @@ Armed with the information gathered in the testing phase, I then constructed my 
 | Locally Available   | Archive, ReparsePoint|
 | Hidden System File  | 1572902     |
 
-Now, translating the attribute values to human-readable states should be an easy enough task to accomplish. 
+There might be additional attributes I didn't come across during my testing phase. I'll keep exploring and updating the reference table here whenever I spot them. For now, I deemed the collected data sufficient to make sense of the attribute values in a way that humans can understand.
+
 
 ## Cracking the Code: The Finished Script
 
