@@ -11,7 +11,7 @@ authors:
     - ["Rob"]
 categories:
     - PowerShell Scripting
-    - OneDrive Scripting
+    - OneDrive
 tags:
     - OneDrive
     - PowerShell
