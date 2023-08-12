@@ -8,7 +8,7 @@ author: Rob
 hidden: false
 comments: true
 draft: false
-ToC: false
+toc: false
 categories:
     - Goals
 tags:
