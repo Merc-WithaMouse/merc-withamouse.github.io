@@ -103,3 +103,70 @@ ___
 * [x] Task 1
 * [x] Task 2
 * [ ] Task 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Images Sizes
+## Hero Image
+The fullscreen image that runs across the top of pages in the “hero” section.
+![hero image example](/Content/post/md-cheatsheet/assets/hero-image.png)
+
+- Aspect Ratio: 16/9
+- Suggested Image Sizes:
+  - 1920px (width) x 1080px (height)
+    - Notes: May look blurry on larger screens as the image will stretch fullwidth. Increasing the image size will increase the page load significantly. Be aware of the tradeoffs.
+Example Image: /static/images/gen/services/service-1-large.webp
+
+## Thumbnail
+Many pages have a thumbnail frontmatter field. Normally used in the services and projects “cards” for example see the cards on the services page. Also can be used for blog thumbnails.
+
+![thumbnail example](/Content/post/md-cheatsheet/assets/thumbnail.png)
+
+- Aspect Ratio: 16/9
+- Suggested Image Sizes:
+  - 640px (width) x 360px (height)
+  - 1280px (width) x 720px (height)
+- Example Image: /static/images/gen/services/service-1-thumbnail.webp
+- Example Image: /static/images/gen/blog/blog-1-thumbnail.webp
+
+## Image
+Most pages have a image frontmatter field. Often used instead of a hero image. Used alot in basic pages, see the about us page for an example. Also used in blog posts.
+
+![image example](/Content/post/md-cheatsheet/assets/image.png)
+
+- Aspect Ratio: 16/9
+- Suggested Image Sizes:
+ - 1280px (width) x 720px (height)
+- Example Image: /static/images/gen/content/content-6.webp
+- Example Image: /static/images/gen/blog/blog-1.webp
+
+## Images in content
+Images inside the markdown content will be resized to a max width of 640px so we recommend using an image at least 640px wide for the best look. The height can be any size you want.
+
+![content example](/Content/post/md-cheatsheet/assets/content.png)
+
+- Aspect Ratio: none
+- Suggested Image Sizes:
+  - 640px (width) x any (height)
+- Example Image: /static/images/gen/content/content-3.webp
