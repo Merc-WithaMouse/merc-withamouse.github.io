@@ -113,4 +113,9 @@ In this exhilarating journey, we ventured into the realm of PowerShell to reveal
 
 #### Next time: we will look at setting controlling the sync states of OneDrive files leveraging their attributes.
 
-### Keep Coding - Happy Saturday!
+### Automate and script away - Happy Shellcode Saturday!
+
+
+
+
+
