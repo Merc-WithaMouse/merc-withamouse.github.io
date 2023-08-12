@@ -4,7 +4,6 @@ description: Quick post outlining short term professional and personal goals.
 slug: 2023-goals
 date: 2023-04-17T07:25:04Z
 image: "/post/2023-goals/checkmarkBanner.png"
-image: 
 author: Rob
 hidden: false
 comments: true
