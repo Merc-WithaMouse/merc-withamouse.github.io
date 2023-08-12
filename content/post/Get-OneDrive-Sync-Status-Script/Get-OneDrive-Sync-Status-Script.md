@@ -22,7 +22,7 @@ tags:
 
 # Navigating the World of OneDrive File Attributes
 
-In our ever-connected digital landscape, OneDrive has emerged as a prominent player in the realm of cloud storage and collaboration. Managing files and syncing them across devices is effortless, but have you ever wondered about the nitty-gritty details of how OneDrive handles these files locally? Today, we'll unveil the magic of PowerShell and explore how to retrieve and interpret the attributes of local OneDrive files, specifically focusing on their File On Demand (FOD) states.
+In our ever-connected digital landscape, OneDrive has remained a prominent player in the realm of cloud storage and collaboration. Managing files and syncing them across devices is generally effortless, but have you ever wondered about the nitty-gritty details of how OneDrive handles these files locally? Today, we'll unveil the magic of PowerShell and explore how to retrieve and interpret the attributes of local OneDrive files, specifically focusing on their File On Demand (FOD) states.
 
 ## Beggining Our Quest
 
