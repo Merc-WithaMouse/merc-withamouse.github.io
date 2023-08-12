@@ -22,11 +22,11 @@ tags:
 
 # Navigating the World of OneDrive File Attributes
 
-In our ever-connected digital landscape, OneDrive has remained a prominent player in the realm of cloud storage and collaboration. Managing files and syncing them across devices is generally effortless, but have you ever wondered about the nitty-gritty details of how OneDrive handles these files locally? Today, we'll unveil the magic of PowerShell and explore how to retrieve and interpret the attributes of local OneDrive files, specifically focusing on their File On Demand (FOD) states.
+In our ever-connected digital landscape, OneDrive has remained a prominent player in the realm of cloud storage and collaboration. Managing files and syncing them across devices is generally effortless, but have you ever wondered about the nitty-gritty details of how OneDrive handles these files locally? Today, we'll unveil the magic of PowerShell and explore how to retrieve and interpret the attributes of local OneDrive files, specifically focusing on their File On Demand _(FOD)_ states.
 
 ## Beggining Our Quest
 
-My journey began with a simple yet intriguing task: I wanted to create a script that could examine local OneDrive files and extract their attributes, particularly shedding light on their FOD states. After some exploration, I stumbled upon a reference script from [Tristan Tyson's tech blog](https://tech.tristantyson.com/setonedrivefodstatespowershell) that seemed promising.
+My journey began with a simple yet intriguing task: I wanted to create a script that could examine local OneDrive files and extract their attributes, particularly shedding light on their FOD states. After some exploration, I stumbled upon a reference script from _[Tristan Tyson's tech blog](https://tech.tristantyson.com/setonedrivefodstatespowershell)_ that seemed promising.
 
 The initial script was straightforward:
 
@@ -51,7 +51,7 @@ The reference script came with a table that associated attribute values with fil
 
 However, during my testing phase, I realized that the provided values didn't correctly align with OneDrive's attributes on my machine. So, I rolled up my sleeves and manually tested different sync states to identify the correct attribute values and their corresponding human-readable states.
 
-For my testing (and ultimately my end goal), I took the reference script and adjusted it to drill down to the current users Commercial OneDrive directory. This allowed me (with toggling sync states multiple times) to identify the different attributes assiociated with different states.
+For my testing _(and ultimately my end goal)_, I took the reference script and adjusted it to drill down to the current users  OneDrive _(Commercial)_ directory. This allowed me _(with toggling sync states multiple times)_ to identify the different attributes assiociated with different states.
 
 ```powershell
 get-childitem $ENV:OneDriveCommercial -Force -File -Recurse | 
