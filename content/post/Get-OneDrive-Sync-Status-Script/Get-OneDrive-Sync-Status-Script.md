@@ -4,7 +4,7 @@ description: "Unlock the power of PowerShell to delve into the attributes of loc
 date: 2023-08-12T04:45:00+01:00
 image: "/post/Get-OneDrive-Sync-Status-Script/OneDriveBanner.jpg"
 toc: false
-hidden: true
+hidden: false
 comments: true
 draft: false
 authors:
