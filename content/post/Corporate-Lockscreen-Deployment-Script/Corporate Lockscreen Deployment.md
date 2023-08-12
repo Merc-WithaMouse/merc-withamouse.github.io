@@ -9,7 +9,7 @@ comments: true
 draft: false
 authors: ["Rob"]
 categories:
-    - PowerShell Automation
+    - PowerShell Scripting
 tags:
     - Windows 10
     - Windows 10 Configuration
