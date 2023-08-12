@@ -24,7 +24,7 @@ tags:
 
 In our ever-connected digital landscape, OneDrive has emerged as a prominent player in the realm of cloud storage and collaboration. Managing files and syncing them across devices is effortless, but have you ever wondered about the nitty-gritty details of how OneDrive handles these files locally? Today, we'll unveil the magic of PowerShell and explore how to retrieve and interpret the attributes of local OneDrive files, specifically focusing on their File On Demand (FOD) states.
 
-## Initiating the Quest
+## Beggining Our Quest
 
 My journey began with a simple yet intriguing task: I wanted to create a script that could examine local OneDrive files and extract their attributes, particularly shedding light on their FOD states. After some exploration, I stumbled upon a reference script from [Tristan Tyson's tech blog](https://tech.tristantyson.com/setonedrivefodstatespowershell) that seemed promising.
 
@@ -46,10 +46,10 @@ The reference script came with a table that associated attribute values with fil
 | File State          | Attribute   |
 |---------------------|-------------|
 | Cloud-Only          | 5248544     |
-| Always available   | 525344      |
-| Locally Available | ReparsePoint|
+| Always available    | 525344      |
+| Locally Available   | ReparsePoint|
 
-However, during my testing phase, I realized that the provided values didn't align correctly with OneDrive's states on my machine. So, I rolled up my sleeves and manually tested different sync states to identify the correct attribute values and their corresponding human-readable states.
+However, during my testing phase, I realized that the provided values didn't correctly align with OneDrive's attributes on my machine. So, I rolled up my sleeves and manually tested different sync states to identify the correct attribute values and their corresponding human-readable states.
 
 For my testing (and ultimately my end goal), I took the reference script and adjusted it to drill down to the current users Commercial OneDrive directory. This allowed me (with toggling sync states multiple times) to identify the different attributes assiociated with different states.
 
@@ -111,5 +111,6 @@ With this final script, I was able to successfully list the OneDrive file attrib
 
 In this exhilarating journey, we ventured into the realm of PowerShell to reveal the attributes of local OneDrive files. Armed with a script that interprets File On Demand states, we've unlocked a deeper understanding of file synchronization. As we continue our IT expeditions, let's remain curious and ever-ready to explore the intricacies of our digital world. 
 
+#### Next time: we will look at setting controlling the sync states of OneDrive files leveraging their attributes.
 
-### Automate. Script. Conquer - Happy Saturday!
+### Keep Coding - Happy Saturday!
