@@ -49,9 +49,11 @@ The reference script came with a table that associated attribute values with fil
 | Always available    | 525344      |
 | Locally Available   | ReparsePoint|
 
-However, during my testing phase, I realized that the provided values didn't correctly align with OneDrive's attributes on my machine. So, I rolled up my sleeves and manually tested different sync states to identify the correct attribute values and their corresponding human-readable states.
+However, during my testing phase, I realized that the provided values didn't correctly align with OneDrive's attributes on my machine. 
 
-For my testing _(and ultimately my end goal)_, I took the reference script and adjusted it to drill down to the current users  OneDrive _(Commercial)_ directory. This allowed me _(with toggling sync states multiple times)_ to identify the different attributes assiociated with different states.
+I desperately scoured the archives in search of any mention of the elusive attributes but alas, I came up short in this endeavor. So, I rolled up my sleeves and manually tested different sync states to identify the correct attribute values and their corresponding human-readable states.
+
+For testing _(and ultimately my end goal)_, I took the reference script and adjusted it to drill down to the current users  OneDrive _(Commercial)_ directory. This allowed me _(with toggling sync states multiple times)_ to identify the different attributes assiociated with different states.
 
 ```powershell
 get-childitem $ENV:OneDriveCommercial -Force -File -Recurse | 
