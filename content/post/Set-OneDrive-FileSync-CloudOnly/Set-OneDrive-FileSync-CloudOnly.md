@@ -22,13 +22,15 @@ tags:
 ---
 
 
-# Simplified: Convert OneDrive Files to Online-Only
+# Manage OneDrive: Converting Files to Online-Only with PowerShell
 
-Hey there, fellow script enthusiasts! Today, let's dive into a quick breakdown of a useful little PowerShell script we stumbled upon in [Tristan Tyson's tech blog](https://tech.tristantyson.com/setonedrivefodstatespowershell). This script's all about converting your OneDrive _(Commercial)_ files into online-only mode. This can be scoped for OneDrive _(Personal)_ as well. Let's break it down step by step.
+Hello there, another quick one to finish off the day. Let's dive into a quick breakdown of a useful little PowerShell script we stumbled upon in _[Tristan Tyson's tech blog](https://tech.tristantyson.com/setonedrivefodstatespowershell)_ whilst looking into _[Getting OneDrive File States with PowerShell](/content/post/Get-OneDrive-Sync-Status-Script\Get-OneDrive-Sync-Status-Script.md)_. This small but handy script is all about converting your OneDrive _(Commercial)_ files into online-only mode. This can be scoped for OneDrive _(Personal)_ files as well.
+
+ Let's break it down step by step.
 
 ## The Script: Streamlining Online-Only Conversion
 
-The script focuses on using PowerShell to set your OneDrive _(Commercial)_ files as online-only, saving local storage. You can check out the original post [here](https://tech.tristantyson.com/setonedrivefodstatespowershell), courtesy of Tristan Tyson.
+The script focuses on using PowerShell to set your OneDrive _(Commercial)_ files as online-only, saving local storage. You can check out the original post _[here](https://tech.tristantyson.com/setonedrivefodstatespowershell)_, courtesy of Tristan Tyson.
 
 Here's the script laid out for you:
 
@@ -59,7 +61,7 @@ Feel free to use this script to optimize your OneDrive experience. Here's to mor
 With this script in your toolkit, you've got the power to make your OneDrive files online-only and keep things tidy. Stay tuned for more useful script breakdowns and tips!
 
 
-#### **Next time**: We will look at creating a dashboard alert and 
+#### **Next time**: We will look at creating a dashboard alert and automated remediation task for use with RMM software.
 
 ### Automate and script away - Happy Shellcode Saturday!
 
