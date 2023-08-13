@@ -114,7 +114,7 @@ With this final script, I was able to successfully list the OneDrive file attrib
 
 In this exhilarating journey, we ventured into the realm of PowerShell to reveal the attributes of local OneDrive files. Armed with a script that interprets File On Demand states, we've unlocked a deeper understanding of file synchronization. As we continue our IT expeditions, let's remain curious and ever-ready to explore the intricacies of our digital world. 
 
-#### Next time: we will look at setting controlling the sync states of OneDrive files leveraging their attributes.
+#### **Next time**: we will look at setting controlling the sync states of OneDrive files leveraging their attributes.
 
 ### Automate and script away - Happy Shellcode Saturday!
 
