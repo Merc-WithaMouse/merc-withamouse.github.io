@@ -1,5 +1,5 @@
 # Change baseurl before deploy
-baseurl = "https://merc-withamouse.github.io"
+baseurl = "https://shellcodesaturdays.co.uk"
 languageCode = "en-us"
 paginate = 5
 title = "ShellCode Saturdays"
