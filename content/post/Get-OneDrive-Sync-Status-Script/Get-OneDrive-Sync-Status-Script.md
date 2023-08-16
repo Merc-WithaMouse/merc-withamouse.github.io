@@ -78,7 +78,7 @@ There might be additional attributes I didn't come across during my testing phas
 
 ## Cracking the Code: The Finished Script
 
-After traveling so far on this quest, the elements of my script emerged, ready to unveil the OneDrive attributes we sought. To that end, I focused on generating clear and comprehensible results into a table format, leveraging a switch statement and PSCustomObject to complete this final task. 
+After traveling so far on this quest, the elements of the script emerged, ready to unveil the OneDrive attributes we sought. To that end, I focused on generating clear and comprehensible results into a table format, leveraging a switch statement and PSCustomObject to complete this final task. 
 
 ```powershell
 $OneDrivePath = $ENV:OneDriveCommercial
@@ -109,6 +109,7 @@ $filesInfo | Format-Table -AutoSize -Wrap
 The script was then tested for its efficiency at gathering the needed information.
 
 With this final script, I was able to successfully list the OneDrive file attributes as desired. The script translates OneDrive file attribute values into human-readable states, making it easier than ever to understand the synchronization status of each file.
+
 
 ## Final Thoughts and Further Explorations
 
