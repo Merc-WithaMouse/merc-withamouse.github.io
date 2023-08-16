@@ -21,11 +21,11 @@ Today, I launch my new blog using Github Pages, Hugo Go and the theme: [Stack](h
 
 So, a little about me. I am a IT technician and technology enthusiast. I have been working in the Managed Service Provider space for a little over 6 years. We support businesses from a range of sectors and each have their own nuances and specific requirements.
 
-Like all good technicians should, wherever i see a repeated task, i like to try to automate it (Ususally via PowerShell). Thats one of the purposes of this blog. Somewhere that i can document any of the knowledge i aquire along my way and share any helpful automations i may create or find.
+Like all forward thinking technicians should, wherever i see a repeated task, i like to see if i can automate it (Ususally via PowerShell). Thats one of the purposes of this blog. Somewhere that i can document any of the knowledge i aquire along my way and share any helpful automations i may create or find. 
 
-I used to be a Linux guy and my initial years were spent on Arch/Fedora/Whaterver flavor i chose that at that time. Since working in the MSP space, i have been soley using Windows. 
+I used to be a Linux guy and my initial years were spent on Arch/Fedora/Whaterver flavor i chose that at that time. Since working in the MSP space, i have been soley using Windows.
 
-The main purpose of this blog is to follow along on my journey as an IT Technician, improving my knowledge on any areas of IT which serve my purpose, including but not limited to: Scripting/Automation, Microsoft 365 Administration, Networking, SecOps, OSINT etc.  
+The main purpose of this blog is to follow along on my journey as an IT Technician, gaining knowledge on any areas of IT which serve my purpose, including but not limited to: Scripting/Automation, Microsoft 365 Administration, Networking, SecOps, OSINT etc. 
 
 ---
 
