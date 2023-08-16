@@ -12,6 +12,7 @@ authors:
 categories:
     - PowerShell Scripting
     - OneDrive
+    - Deconstructed
 tags:
     - OneDrive
     - PowerShell
