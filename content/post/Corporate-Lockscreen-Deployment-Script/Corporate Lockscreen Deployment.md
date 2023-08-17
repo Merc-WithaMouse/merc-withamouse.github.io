@@ -214,4 +214,4 @@ After adding this to our main configuration script, we can call the function `Se
 
 Part of the standard workflow _(when using the script I created some time ago)_ is already to restart the endpoint manualy upon script completion. As such, we do not need to consider this in these functions. If we were implementing these functions elsewhere, a system restart would need to be factored in.
 
-### Automate and script away - Happy Shellcode Saturday!
+### _Automate and script away - Happy Shellcode Saturday!_
