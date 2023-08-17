@@ -1,6 +1,6 @@
 ---
 title: Links
-links: false
+links:
   - title: GitHub
     description: GitHub is the world's largest software development platform.
     website: https://github.com
