@@ -2,7 +2,7 @@
 title: "Deconstructed: Convert OneDrive Files to Online-Only"
 description: "Discover a useful little PowerShell script to effortlessly transform your OneDrive files into online-only mode, freeing up disk space by uploading files."
 date: 2023-08-12T23:45:00+01:00
-image: "/post/Set-OneDrive-FileSync-CloudOnly/OneDriveBanner_White.png"
+image: "/post/Convert-OneDrive-Files-Online-Only/OneDriveBanner-White.png"
 toc: false
 hidden: false
 comments: true
