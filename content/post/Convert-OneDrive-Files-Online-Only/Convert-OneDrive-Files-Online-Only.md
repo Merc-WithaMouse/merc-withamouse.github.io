@@ -23,9 +23,11 @@ tags:
 ---
 
 
-# Manage OneDrive: Converting Files to Online-Only with PowerShell
+## Managing OneDrive: Converting Files to Online-Only with PowerShell
 
 Hello there, another quick one to finish off the day. Let's dive into a quick breakdown of a useful little PowerShell script we stumbled upon in _[Tristan Tyson's tech blog](https://tech.tristantyson.com/setonedrivefodstatespowershell)_ whilst looking into _[Getting OneDrive File States with PowerShell](/content/post/Get-OneDrive-Sync-Status-Script\Get-OneDrive-Sync-Status-Script.md)_. This small but handy script is all about converting your OneDrive _(Commercial)_ files into online-only mode. This can be scoped for OneDrive _(Personal)_ files as well.
+
+This simple little script could be used to change the attribute of OneDrive files to _'Cloud Only'_, which would free up available disk space as any locally synced files are uploaded to OneDrive.
 
  Let's break it down step by step.
 
