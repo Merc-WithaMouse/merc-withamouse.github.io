@@ -117,4 +117,4 @@ In this exhilarating journey, we ventured into the realm of PowerShell to reveal
 
 #### **Next time**: We will look at [setting the sync state of OneDrive files to "Online-Only"]("content/post/Set-OneDrive-FileSync-CloudOnly/Set-OneDrive-FileSync-CloudOnly.md") leveraging their file attributes to do so.
 
-### Automate and script away - Happy Shellcode Saturday!
+### _Automate and script away - Happy Shellcode Saturday!_
