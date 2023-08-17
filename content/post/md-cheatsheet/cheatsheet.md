@@ -175,3 +175,26 @@ Images inside the markdown content will be resized to a max width of 640px so we
 - Suggested Image Sizes:
   - 640px (width) x any (height)
 - Example Image: /static/images/gen/content/content-3.webp
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Add a new page to your site.
+hugo new post/My-First-Post/my-first-post.md
+
+### Preview Drafts
+hugo server --buildDrafts
+
+
+### When editing content, if you want your browser to automatically redirect to the page you last modified, run:
+hugo server --navigateToChanged
+hugo server --minify --buildDrafts --navigateToChanged
