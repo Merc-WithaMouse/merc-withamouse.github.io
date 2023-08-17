@@ -66,4 +66,4 @@ With this script in your toolkit, you've got the power to make your OneDrive fil
 
 #### **Next time**: We will look at creating a dashboard alert and automated remediation task for use with RMM software. This will likely utilise elements of or even combine this small script we haev created today and our previous script to _[Get OneDrive File Sync Status]("content/post/Get-OneDrive-Sync-Status-Script/Get-OneDrive-Sync-Status-Script.md)_
 
-### Automate and script away - Happy Shellcode Saturday!
+### _Automate and script away - Happy Shellcode Saturday!_
