@@ -6,7 +6,7 @@ image:
 toc: false
 math: 
 license: 
-hidden: false
+hidden: true
 comments: true
 draft: true
 authors:
