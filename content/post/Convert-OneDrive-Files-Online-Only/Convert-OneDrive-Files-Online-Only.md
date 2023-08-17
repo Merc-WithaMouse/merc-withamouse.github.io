@@ -64,6 +64,6 @@ Feel free to use this script to optimize your OneDrive experience. Here's to mor
 With this script in your toolkit, you've got the power to make your OneDrive files online-only and keep things tidy. Stay tuned for more useful script breakdowns and tips!
 
 
-#### **Next time**: We will look at creating a dashboard alert and automated remediation task for use with RMM software. This will likely utilise elements of or even combine this small script we haev created today and our previous script to _[Get OneDrive File Sync Status]("post/Get-OneDrive-Sync-Status-Script/Get-OneDrive-Sync-Status-Script.md")_
+#### **Next time**: We will look at creating a dashboard alert and automated remediation task for use with RMM software. This will likely utilise elements of or even combine this small script we haev created today and our previous script to _[Get OneDrive File Sync Status](/content/post/Get-OneDrive-Sync-Status-Script/Get-OneDrive-Sync-Status-Script.md)_
 
 ### _Automate and script away - Happy Shellcode Saturday!_
