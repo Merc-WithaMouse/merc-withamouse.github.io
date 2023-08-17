@@ -7,7 +7,7 @@ image:
 math: 
 hidden: true
 comments: true
-draft: false
+draft: true
 categories:
     - Web Design
 tags:
