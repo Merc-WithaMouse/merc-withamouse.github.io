@@ -26,18 +26,17 @@ tags:
 ---
 
 <!-- Microsofts Guide -->
-<!-- 
-https://learn.microsoft.com/en-us/windows/package-manager/winget/ -->
+<!-- https://learn.microsoft.com/en-us/windows/package-manager/winget/ -->
 
 # Quick Dive: Managing Applications With Winget
 
-Happy Saturday! Welcome back to another blog post. In this edition, we'll be taking a quick dive into managing applications using the [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/) command line tool, which is  Microsoft's "client interface  to the Windows Package Manager service".
+Happy Saturday! Welcome back to another blog post. In this edition, we'll be taking a short break from OneDrive to have a quick dive into managing applications using the command line tool [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/) - Microsoft's _"Client Interface to the Windows Package Manager service"_.
 
 If you're looking for another way to install, update, and uninstall software on Windows, you're in the right place. Let's get started!
 
 ## Checking if Winget is Installed
 
-Winget is supported on __*Windows 10 1709 (build 16299) or later*__.  Before we jump in, let's make sure it's installed in your environment. You can easily check if it is installed by opening your command prompt or PowerShell and typing the following:
+Winget is supported on __*Windows 10 1709 (build 16299) or later*__.  Before we jump in, let's make sure it's installed in your environment. You can easily check by opening your command prompt or PowerShell and typing the following:
 
 ```powershell
 winget --help
@@ -149,7 +148,7 @@ winget upgrade --all --uninstall-previous --force --accept-package-agreements --
 
 ## Scripting winget
 
-Microsoft provides an [Example Bash script](https://learn.microsoft.com/en-us/windows/package-manager/winget/#scripting-winget) that can install packages one aftert another using Winget. 
+Microsoft provides an [Example Bash script](https://learn.microsoft.com/en-us/windows/package-manager/winget/#scripting-winget) that can install packages one after another using Winget. 
 
 ```powershell
 @echo off  
