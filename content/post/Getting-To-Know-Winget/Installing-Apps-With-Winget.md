@@ -28,7 +28,7 @@ https://learn.microsoft.com/en-us/windows/package-manager/winget/ -->
 
 # Quick Dive: Managing Applications With Winget
 
-Happy Saturday! Welcome back to another blog post. In this edition, we'll be taking a quick dive into managing applications using the [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/) command line tool, which is  Microsoft's "client interface  to the Windows Package Manager service". 
+Happy Saturday! Welcome back to another blog post. In this edition, we'll be taking a quick dive into managing applications using the [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/) command line tool, which is  Microsoft's "client interface  to the Windows Package Manager service".
 
 If you're looking for another way to install, update, and uninstall software on Windows, you're in the right place. Let's get started!
 
