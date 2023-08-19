@@ -33,12 +33,14 @@ Happy Saturday! Welcome back to another blog post. In this edition, we'll be tak
 Winget is supported on __*Windows 10 1709 (build 16299) or later*__.  Before we jump in, let's make sure it's installed in your environment. You can easily check if it is installed by opening your command prompt or PowerShell and typing the following:
 
 ```powershell
+winget --help
+```
+or
+```powershell
 winget -?
 ```
 
 If Winget is installed, you'll see a helpful command summary along with various options and commands that you can use.
-
-If it is not installed, 
 
 **An important note from Microsoft on this:** _The winget tool will not be available until you have logged into Windows as a user for the first time, triggering Microsoft Store to register Windows Package Manager as part of an asynchronous process. If you have recently logged in as a user for the first time and find that winget is not yet available, you can open PowerShell and enter the following command to request this winget registration:_ `Add-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe`
 
