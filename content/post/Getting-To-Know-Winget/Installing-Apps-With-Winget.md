@@ -1,5 +1,5 @@
 ---
-title: "Installing Apps With Winget"
+title: "Quick Dive: Managing Applications With Winget"
 description: 
 date: 2023-08-20T03:45:00+01:00
 image: 
