@@ -13,7 +13,7 @@ authors:
     - ["Rob"]
 categories:
     - Quick Dive
-    - PowerShell
+    - PowerShell Basics
     - Application Management
 
 tags:
