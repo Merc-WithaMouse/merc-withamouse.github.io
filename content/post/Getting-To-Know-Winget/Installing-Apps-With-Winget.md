@@ -1,7 +1,7 @@
 ---
 title: "Quick Dive: Managing Applications With Winget"
-description:
-date: 2023-08-19T03:45:00+01:00
+description: 
+date: 2023-08-19T06:45:00+01:00
 image: "/post/Getting-To-Know-Winget/Winget-Help.PNG"
 toc: false
 math: false
@@ -22,11 +22,11 @@ tags:
     - Command line Tool
     - PowerShell
 links:
-
-- title: Microsoft Learn
+  - title: Microsoft Learn
     description: The winget command line tool enables users to discover, install, upgrade, remove and configure applications on Windows 10 and Windows 11 computers. This tool is the client interface to the Windows Package Manager service.
-    website: <https://learn.microsoft.com/en-us/windows/package-manager/winget/>
-    image: <https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1Mu3b?ver=5c31>
+    website: https://learn.microsoft.com
+    image: https://learn.microsoft.com/en-us/windows/package-manager/winget/
+---
 
 <!-- Microsofts Guide -->
 <!-- https://learn.microsoft.com/en-us/windows/package-manager/winget/ -->
