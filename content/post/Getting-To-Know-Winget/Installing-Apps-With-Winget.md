@@ -6,7 +6,7 @@ image: "/post/Getting-To-Know-Winget/Winget-Help.PNG"
 toc: false
 math: false
 license: false
-hidden: false
+hidden: falses
 comments: true
 draft: false
 authors:
