@@ -21,11 +21,8 @@ tags:
     - Windows Package Manager
     - Command line Tool
     - PowerShell
-links:
-  - title: GitHub
-    description: The winget command line tool enables users to discover, install, upgrade, remove and configure applications on Windows 10 and Windows 11 computers. This tool is the client interface to the Windows Package Manager service.
-    website: https://;earn.microsoft.com
-    image: https://learn.microsoft.com/en-us/windows/package-manager/winget/
+    
+
 ---
 
 <!-- Microsofts Guide -->
