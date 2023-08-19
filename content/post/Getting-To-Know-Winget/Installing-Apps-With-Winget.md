@@ -6,7 +6,7 @@ image: "/post/Getting-To-Know-Winget/Winget-Help.PNG"
 toc: false
 math: false
 license: false
-hidden: falses
+hidden: false
 comments: true
 draft: false
 authors:
@@ -22,9 +22,9 @@ tags:
     - Command line Tool
     - PowerShell
 links:
-  - title: Microsoft Learn
+  - title: GitHub
     description: The winget command line tool enables users to discover, install, upgrade, remove and configure applications on Windows 10 and Windows 11 computers. This tool is the client interface to the Windows Package Manager service.
-    website: https://learn.microsoft.com
+    website: https://;earn.microsoft.com
     image: https://learn.microsoft.com/en-us/windows/package-manager/winget/
 ---
 
@@ -44,9 +44,7 @@ Winget is supported on __*Windows 10 1709 (build 16299) or later*__.  Before we 
 ```powershell
 winget --help
 ```
-
 or
-
 ```powershell
 winget -?
 ```
@@ -104,7 +102,7 @@ The following commands are available:
 
 To get more details on any specific commands available options, pass them the help argument. [-?]
 
-for example, `winget install -?` would return the relevant options realating to installation. Some of these that are going to be relevant to us shortly are:
+for example, `winget install -?` would return the relevant options realating to installation. Some of these that are going to be relevant to us shortly are: 
 
 | Install Option     | Description          |
 | -------- | -------------- |
@@ -113,6 +111,7 @@ for example, `winget install -?` would return the relevant options realating to 
 | -h,--silent    | Request silent installation |
 | --accept-package-agreements    | Accept all licenseagreements for packages |
 | --disable-interactivity   | Disable interactive prompts |
+
 
 ## Searching for Packages
 
@@ -152,7 +151,7 @@ winget upgrade --all --uninstall-previous --force --accept-package-agreements --
 
 ## Scripting winget
 
-Microsoft provides an [Example Bash script](https://learn.microsoft.com/en-us/windows/package-manager/winget/#scripting-winget) that can install packages one after another using Winget.
+Microsoft provides an [Example Bash script](https://learn.microsoft.com/en-us/windows/package-manager/winget/#scripting-winget) that can install packages one after another using Winget. 
 
 ```powershell
 @echo off  
@@ -177,15 +176,14 @@ winget install --id "7zip.7zip" "Adobe.Acrobat.Reader.64-bit" "Zoom.Zoom" "Notep
 
 # Listing Installed Packages
 
-You can get a list of installed packages using the command:
-
+You can get a list of installed packages using the command: 
 ```powershell
 winget list
 ```
 
 This command will output a table of installed packages and properties such as `Name, Id, Version` & `Available Source`.
 
-Interestingly, this command will even display packages that were not originally installed through the Windows Package Manager.
+Interestingly, this command will even display packages that were not originally installed through the Windows Package Manager. 
 
 ## Silently Uninstalling a Package
 
