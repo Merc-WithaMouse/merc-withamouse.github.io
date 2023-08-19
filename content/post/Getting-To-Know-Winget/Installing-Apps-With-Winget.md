@@ -1,7 +1,7 @@
 ---
 title: "Quick Dive: Managing Applications With Winget"
 description: 
-date: 2023-08-19T03:45:00+01:00
+date: 2023-08-19T06:45:00+01:00
 image: "/post/Getting-To-Know-Winget/Winget-Help.PNG"
 toc: false
 math: false
@@ -12,14 +12,17 @@ draft: false
 authors:
     - ["Rob"]
 categories:
+    - Quick Dive
     - PowerShell
     - Application Management
-    - CLI Tool
+
 tags:
     - Winget
     - Windows Package Manager
-    - Command line
+    - Command line Tool
     - PowerShell
+    
+
 ---
 
 <!-- Microsofts Guide -->
