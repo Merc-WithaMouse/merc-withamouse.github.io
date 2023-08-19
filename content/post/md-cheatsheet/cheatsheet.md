@@ -198,3 +198,11 @@ hugo server --buildDrafts
 ### When editing content, if you want your browser to automatically redirect to the page you last modified, run:
 hugo server --navigateToChanged
 hugo server --minify --buildDrafts --navigateToChanged
+
+
+### test Author quote block
+
+{{< quote author="A famous person" source="The book they wrote" url="https://en.wikipedia.org/wiki/Book">}}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+{{< figure src="image.jpg" title="An elephant at sunset" >}}
+{{< /quote >}}
