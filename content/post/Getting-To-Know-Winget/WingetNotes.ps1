@@ -1,19 +1,19 @@
 if (Get-Command -Name winget -ErrorAction SilentlyContinue) {
-    Write-Output "Chceking output."
-    $WingetVersion = (winget.exe -v)
-    Write-Output "Winget is installed. Version: $WingetVersion";
+  Write-Output "Chceking output."
+  $WingetVersion = (winget.exe -v)
+  Write-Output "Winget is installed. Version: $WingetVersion";
 }
 else {
-    Write-Output "Winget is not installed."
-    Write-Output "Installing Winget..."
-    try {
-        Invoke-WebRequest -Uri https://aka.ms/winget-cli -OutFile winget-cli.msixbundle
-        Start-Sleep -Seconds 1
-        Add-AppxPackage -Path .\winget-cli.msixbundle
-    }
-    catch {
-        Write-Output "Winget Installation Failed."
-    }
+  Write-Output "Winget is not installed."
+  Write-Output "Installing Winget..."
+  try {
+    Invoke-WebRequest -Uri https://aka.ms/winget-cli -OutFile winget-cli.msixbundle
+    Start-Sleep -Seconds 1
+    Add-AppxPackage -Path .\winget-cli.msixbundle
+  }
+  catch {
+    Write-Output "Winget Installation Failed."
+  }
 }
 
 
@@ -27,6 +27,7 @@ Add-AppxPackage Microsoft.VCLibs.x64.14.00.Desktop.appx
 Add-AppxPackage Microsoft.UI.Xaml.2.7.x64.appx
 Add-AppxPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
 
+winget install Hugo.Hugo.Extended
 
 
 
