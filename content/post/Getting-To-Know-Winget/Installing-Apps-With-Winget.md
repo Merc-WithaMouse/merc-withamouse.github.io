@@ -169,7 +169,7 @@ If you want to automate the installation of a specific set of packages, you can 
 winget install --id "7zip.7zip" "Adobe.Acrobat.Reader.64-bit" "Zoom.Zoom" "Notepad++.Notepad++" "Google.Chrome" "Mozilla.Firefox" "VideoLAN.VLC" "Egnyte.EgnyteDesktopApp" --silent --disable-interactivity
 ```
 
-## Listing Installed Packages
+# Listing Installed Packages
 
 You can get a list of installed packages using the command:
 
