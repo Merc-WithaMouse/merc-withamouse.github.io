@@ -23,9 +23,7 @@ tags:
 ---
 
 <!-- Microsofts Guide -->
-<!-- https://learn.microsoft.com/en-us/windows/package-manager/winget/ 
-winget install Hugo.Hugo.Extended
--->
+<!-- https://learn.microsoft.com/en-us/windows/package-manager/winget/ -->
 
 # Quick Dive: Managing Applications With Winget
 

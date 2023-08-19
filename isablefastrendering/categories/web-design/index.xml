@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Web Design on ShellCode Saturdays</title>
+        <link>http://localhost:1313/categories/web-design/</link>
+        <description>Recent content in Web Design on ShellCode Saturdays</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <lastBuildDate>Mon, 17 Apr 2023 01:25:04 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/web-design/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Hello World</title>
+        <link>http://localhost:1313/p/hello-world/</link>
+        <pubDate>Sat, 15 Apr 2023 17:24:33 +0000</pubDate>
+        
+        <guid>http://localhost:1313/p/hello-world/</guid>
+        <description>&lt;img src="http://localhost:1313/p/hello-world/EarthBanner.jpeg" alt="Featured image of post Hello World" /&gt;&lt;h2 id=&#34;hello-world&#34;&gt;Hello World,&lt;/h2&gt;
+&lt;p&gt;Today, I launch my new blog using Github Pages, Hugo Go and the theme: &lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Stack&lt;/a&gt; by &lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;CaiJimmy&lt;/a&gt;. I previously tested manually deploying a blog using the dot-hugo theme from &lt;a class=&#34;link&#34; href=&#34;https://github.com/themefisher/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Themefisher&lt;/a&gt; which worked great at the time, but for reasons unknown to me, when i attempted to deploy for real, i experienced some critical issues. So after giving it a break and returning the following day, I started afresh, searched for a new theme and came across &lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Stack&lt;/a&gt;. So here we are.&lt;/p&gt;
+&lt;h3 id=&#34;moving-on&#34;&gt;Moving on&amp;hellip;&lt;/h3&gt;
+&lt;p&gt;So, a little about me. I am a IT technician and technology enthusiast. I have been working in the Managed Service Provider space for a little over 6 years. We support businesses from a range of sectors and each have their own nuances and specific requirements.&lt;/p&gt;
+&lt;p&gt;Like all forward thinking technicians should, wherever i see a repeated task, i like to see if i can automate it (Ususally via PowerShell). Thats one of the purposes of this blog. Somewhere that i can document any of the knowledge i aquire along my way and share any helpful automations i may create or find.&lt;/p&gt;
+&lt;p&gt;I used to be a Linux guy and my initial years were spent on Arch/Fedora/Whaterver flavor i chose that at that time. Since working in the MSP space, i have been soley using Windows.&lt;/p&gt;
+&lt;p&gt;The main purpose of this blog is to follow along on my journey as an IT Technician, gaining knowledge on any areas of IT which serve my purpose, including but not limited to: Scripting/Automation, Microsoft 365 Administration, Networking, SecOps, OSINT etc.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;For more information about the theme used in this blog, check the documentation: &lt;a class=&#34;link&#34; href=&#34;https://docs.stack.jimmycai.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Stack - Designed for bloggers&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Photo by &lt;a class=&#34;link&#34; href=&#34;https://jooinn.com/world-globe-banner.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Prawny&lt;/a&gt; on &lt;a class=&#34;link&#34; href=&#34;https://jooinn.com/world-globe-banner.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Jooinn&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
