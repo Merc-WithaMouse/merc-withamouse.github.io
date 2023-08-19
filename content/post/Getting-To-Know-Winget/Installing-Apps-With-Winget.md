@@ -2,7 +2,7 @@
 title: "Quick Dive: Managing Applications With Winget"
 description: 
 date: 2023-08-20T03:45:00+01:00
-image: 
+image: "/post/Getting-To-Know-Winget/Winget-Help.png"
 toc: false
 math: 
 license: 
@@ -26,7 +26,9 @@ https://learn.microsoft.com/en-us/windows/package-manager/winget/ -->
 
 # Quick Dive: Managing Applications With Winget
 
-Happy Saturday! Welcome back to another blog post. In this edition, we'll be taking a quick dive into managing applications using Microsoft's package manager, Winget. If you're looking for another way to install, update, and uninstall software on Windows, you're in the right place. Let's get started!
+Happy Saturday! Welcome back to another blog post. In this edition, we'll be taking a quick dive into managing applications using the [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/) command line tool, which is  Microsoft's "client interface  to the Windows Package Manager service". 
+
+If you're looking for another way to install, update, and uninstall software on Windows, you're in the right place. Let's get started!
 
 ## Checking if Winget is Installed
 
@@ -157,13 +159,24 @@ if %ERRORLEVEL% EQU 0 Echo Terminal installed successfully.   %ERRORLEVEL%
 
 **An important note from Microsoft on this:** _When scripted, winget will launch the applications in the specified order. When an installer returns success or failure, winget will launch the next installer. If an installer launches another process, it is possible that it will return to winget prematurely. This will cause winget to install the next installer before the previous installer has completed._
 
-## Script for Silently Installing Specific Packages
+## Silently Installing Multiple Specific Packages (One Liner)
 
 If you want to automate the installation of a specific set of packages, you can use a script like this:
 
 ```powershell
 winget install --id "7zip.7zip" "Adobe.Acrobat.Reader.64-bit" "Zoom.Zoom" "Notepad++.Notepad++" "Google.Chrome" "Mozilla.Firefox" "VideoLAN.VLC" "Egnyte.EgnyteDesktopApp" --silent --disable-interactivity
 ```
+
+# Listing Installed Packages
+
+You can get a list of installed packages using the command: 
+```powershell
+winget list
+```
+
+This command will output a table of installed packages and properties such as `Name, Id, Version` & `Available Source`.
+
+Interestingly, this command will even display packages that were not originally installed through the Windows Package Manager. 
 
 ## Silently Uninstalling a Package
 
