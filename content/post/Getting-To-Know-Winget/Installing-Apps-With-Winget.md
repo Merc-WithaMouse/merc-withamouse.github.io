@@ -26,11 +26,11 @@ https://learn.microsoft.com/en-us/windows/package-manager/winget/ -->
 
 # Quick Dive: Managing Applications With Winget
 
-Welcome back to another ShellCode Saturdays blog post! In this edition, we'll be taking a quick dive into managing applications using Microsoft's powerful package manager, Winget. If you're looking for a seamless way to install, update, and uninstall software on Windows, you're in for a treat. Let's get started!
+Happy Saturday! Welcome back to another blog post. In this edition, we'll be taking a quick dive into managing applications using Microsoft's package manager, Winget. If you're looking for another way to install, update, and uninstall software on Windows, you're in the right place. Let's get started!
 
 ## Checking if Winget is Installed
 
-Before we jump into the magic of Winget, let's make sure it's installed on your system. You can easily check this by opening your command prompt or PowerShell and typing the following:
+Winget is supported on __*Windows 10 1709 (build 16299) or later*__.  Before we jump in, let's make sure it's installed in your environment. You can easily check if it is installed by opening your command prompt or PowerShell and typing the following:
 
 ```powershell
 winget -?
@@ -38,15 +38,13 @@ winget -?
 
 If Winget is installed, you'll see a helpful command summary along with various options and commands that you can use.
 
+If it is not installed, 
+
+**An important note from Microsoft on this:** _The winget tool will not be available until you have logged into Windows as a user for the first time, triggering Microsoft Store to register Windows Package Manager as part of an asynchronous process. If you have recently logged in as a user for the first time and find that winget is not yet available, you can open PowerShell and enter the following command to request this winget registration:_ `Add-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe`
+
 ## Installing the Latest Version of Winget
 
-If you're missing Winget or want to ensure you have the latest version, you can install it using the following command:
-
-```powershell
-winget install Microsoft.Winget
-```
-
-Or...
+If you're missing Winget or want to ensure you have the latest version, you can install it using the following command from Microsoft:
 
 ```powershell
 $progressPreference = 'silentlyContinue'
@@ -59,6 +57,7 @@ Add-AppxPackage Microsoft.UI.Xaml.2.7.x64.appx
 Add-AppxPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
 ```
 
+You could also install "App Installer" through the [Microsoft Store](https://www.microsoft.com/p/app-installer/9nblggh4nns1#activetab=pivot:overviewtab) to get to the same outcome.
 
 ## Navigating Available Command Line Options
 
@@ -90,7 +89,7 @@ The following commands are available:
   pin        Manage package pins
 ```
 
-To get more details on any specific options own available , pass it the help argument. [-?]
+To get more details on any specific commands available options, pass them the help argument. [-?]
 
 for example, `winget install -?` would return the relevant options realating to installation. Some of these that are going to be relevant to us shortly are: 
 
@@ -105,7 +104,7 @@ for example, `winget install -?` would return the relevant options realating to 
 
 ## Searching for Packages
 
-Finding packages with Winget is a breeze. If you're looking for, let's say, Google Chrome, you can use the following command:
+Finding packages with Winget is simple. If you're looking for, let's say, Google Chrome, you can use the following command:
 
 ```powershell
 winget search Chrome
@@ -120,6 +119,8 @@ Curious about the details of a specific package? You can use the `show` command 
 ```powershell
 winget show --id Google.Chrome
 ```
+
+It's a good idea to use the 'Show' command to verify the package you are interacting with, is what you think it is.  
 
 ## Silently Installing a Package
 
@@ -137,12 +138,29 @@ To keep your applications up to date without manual intervention, use the `upgra
 winget upgrade --all --uninstall-previous --force --accept-package-agreements --accept-source-agreements --silent --disable-interactivity
 ```
 
+## Scripting winget
+
+Microsoft provides an [Example Bash script](https://learn.microsoft.com/en-us/windows/package-manager/winget/#scripting-winget) that can install packages one aftert another using Winget. 
+
+```powershell
+@echo off  
+Echo Install Powertoys and Terminal  
+REM Powertoys  
+winget install Microsoft.Powertoys  
+if %ERRORLEVEL% EQU 0 Echo Powertoys installed successfully.  
+REM Terminal  
+winget install Microsoft.WindowsTerminal  
+if %ERRORLEVEL% EQU 0 Echo Terminal installed successfully.   %ERRORLEVEL%
+```
+
+**An important note from Microsoft on this:** _When scripted, winget will launch the applications in the specified order. When an installer returns success or failure, winget will launch the next installer. If an installer launches another process, it is possible that it will return to winget prematurely. This will cause winget to install the next installer before the previous installer has completed._
+
 ## Script for Silently Installing Specific Packages
 
 If you want to automate the installation of a specific set of packages, you can use a script like this:
 
 ```powershell
-winget install --id "7zip.7zip" "Adobe.Acrobat.Reader.64-bit" "Zoom.Zoom" "Notepad++.Notepad++" "Google.Chrome" "Mozilla.Firefox" "VideoLAN.VLC" "Egnyte.EgnyteDesktopApp" --silent --silent --disable-interactivity
+winget install --id "7zip.7zip" "Adobe.Acrobat.Reader.64-bit" "Zoom.Zoom" "Notepad++.Notepad++" "Google.Chrome" "Mozilla.Firefox" "VideoLAN.VLC" "Egnyte.EgnyteDesktopApp" --silent --disable-interactivity
 ```
 
 ## Silently Uninstalling a Package
@@ -153,8 +171,10 @@ Removing packages silently is just as easy. For example, to silently uninstall G
 winget uninstall --id Google.Chrome --silent
 ```
 
-With these Winget commands and techniques, you have the power to effortlessly manage your applications, ensuring your system stays organized and up to date.
+With these Winget commands and techniques, you have the power to manage your applications using Microsofts own package manager.
 
-Remember, Winget is an incredibly versatile tool that can make your life easier. Explore its commands, experiment, and embrace the convenience it offers in managing your software ecosystem.
+Remember, Winget is an incredibly versatile tool that can make your life easier.
 
-That's it for today's ShellCode Saturdays post! We hope this quick dive into managing applications with Winget proves helpful. Until next time, happy coding and exploring! 🚀
+That's it for today's ShellCode Saturdays post! I hope this quick dive into managing applications with Winget proves helpful. Until next time, happy coding and exploring! 🚀
+
+### _Automate and script away - Happy Shellcode Saturday!_
