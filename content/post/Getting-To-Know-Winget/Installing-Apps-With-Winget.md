@@ -193,8 +193,6 @@ winget uninstall --id Google.Chrome --silent
 
 With these Winget commands and techniques, you have the power to manage your applications using Microsofts own package manager.
 
-Remember, Winget is an incredibly versatile tool that can make your life easier.
-
-That's it for today's ShellCode Saturdays post! I hope this quick dive into managing applications with Winget proves helpful. Until next time, happy coding and exploring! 🚀
+That's it for today! I hope this quick dive into managing applications with Winget proves helpful. Until next time, happy coding and exploring! 🚀
 
 ### _Automate and script away - Happy Shellcode Saturday!_
