@@ -77,7 +77,7 @@ winget -?
 ```
 This will provide you with a handy list of commands, Each with their own context relevant options:
 
-![Winget Help Output - Available Commands](/Content/post/Getting-To-Know-Winget/WingetSwitches.PNG)
+![Winget Help Output - Available Commands](WingetSwitches.PNG)
 
 <!--
 ```powershell
