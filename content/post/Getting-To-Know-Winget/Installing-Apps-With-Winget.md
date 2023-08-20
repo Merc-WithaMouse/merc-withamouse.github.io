@@ -21,12 +21,15 @@ tags:
     - PowerShell
     - Application Management
 
+links:
+  - title: Microsoft Learn
+    description: Use the winget tool to install and manage applications
+    website: https://learn.microsoft.com/en-us/windows/package-manager/winget
+    image: https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RWCZER?ver=1433&q=90&m=6&h=120&w=120&b=%23FFFFFFFF&l=f&o=t&aim=true
 ---
 
 <!-- Microsofts Guide -->
 <!-- https://learn.microsoft.com/en-us/windows/package-manager/winget/ -->
-
-# Quick Dive: Managing Applications With Winget
 
 Happy Saturday! Welcome back to another blog post. In this edition, we'll be taking a short break from OneDrive to have a quick dive into managing applications using the command line tool [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/) - Microsoft's _"Client Interface to the Windows Package Manager service"_.
 
