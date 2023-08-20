@@ -174,7 +174,7 @@ Images inside the markdown content will be resized to a max width of 640px so we
 - Aspect Ratio: none
 - Suggested Image Sizes:
   - 640px (width) x any (height)
-- Example Image: /static/images/gen/content/content-3.webp
+- Example Image: /Content/post/md-cheatsheet/assets/content.png
 
 
 
