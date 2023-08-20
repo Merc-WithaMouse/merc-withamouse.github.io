@@ -10,8 +10,6 @@ draft: false
 authors:
     - ["Rob"]
 categories:
-    - PowerShell Scripting
-    - OneDrive
     - Deconstructed
 tags:
     - OneDrive

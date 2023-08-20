@@ -1,6 +1,6 @@
 ---
 title: Powershell Scripting
-description: 
+description: All things scripting (PowerShell). 
 image:
 
 # Badge style

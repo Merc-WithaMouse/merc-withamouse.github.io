@@ -1,6 +1,6 @@
 ---
 title: Quick Dive
-description: 
+description: A series where we gain surface level knowledge of various tools, scripts, and other technologies. 
 image:
 
 # Badge style

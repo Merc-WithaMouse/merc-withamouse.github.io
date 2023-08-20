@@ -1,6 +1,6 @@
 ---
 title: Goals
-description: 
+description: Personal and Professional Goals.
 image:
 
 # Badge style

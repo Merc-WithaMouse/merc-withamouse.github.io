@@ -1,6 +1,6 @@
 ---
 title: PowerShell Basics
-description: 
+description: Basic PowerShell Usage and Concepts.
 image:
 
 # Badge style

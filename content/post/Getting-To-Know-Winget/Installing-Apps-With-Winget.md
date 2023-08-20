@@ -14,15 +14,12 @@ authors:
     - ["Rob"]
 categories:
     - Quick Dive
-    - PowerShell Basics
-    - Application Management
-
 tags:
     - Winget
     - Windows Package Manager
     - Command line Tool
     - PowerShell
-    
+    - Application Management
 
 ---
 
