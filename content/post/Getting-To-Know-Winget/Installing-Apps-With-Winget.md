@@ -75,9 +75,11 @@ Winget offers an array of powerful command-line options that enable you to perfo
 ```powershell
 winget -?
 ```
+This will provide you with a handy list of commands, Each with their own context relevant options:
 
-This will provide you with a comprehensive list of options, allowing you to customize your installation process.
+![Winget Help Output - Available Commands](Winget-Switches.PNG)
 
+<!--
 ```powershell
     usage: winget  [<command>] [<options>]
 
@@ -97,8 +99,9 @@ The following commands are available:
   import     Installs all the packages in a file
   pin        Manage package pins
 ```
+-->
 
-To get more details on any specific commands available options, pass them the help argument. [-?]
+To get more details on any specific commands available options, pass them the help argument. `[-?]`
 
 for example, `winget install -?` would return the relevant options realating to installation. Some of these that are going to be relevant to us shortly are: 
 
@@ -181,7 +184,7 @@ winget list
 
 This command will output a table of installed packages and properties such as `Name, Id, Version` & `Available Source`.
 
-Interestingly, this command will even display packages that were not originally installed through the Windows Package Manager. 
+Interestingly, this command will even display packages that were not originally installed through Windows Package Manager. 
 
 ## Silently Uninstalling a Package
 
