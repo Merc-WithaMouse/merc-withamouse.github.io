@@ -2,7 +2,6 @@
 title: "Quick Dive: Managing Applications With Winget"
 description: 
 date: 2023-08-19T6:45:00+01:00
-
 image: "/post/Getting-To-Know-Winget/Winget-Help.PNG"
 toc: false
 math: false
@@ -13,7 +12,7 @@ draft: false
 authors:
     - ["Rob"]
 categories:
-    - Quick Dive
+    - Quick Look
 tags:
     - Winget
     - Windows Package Manager
