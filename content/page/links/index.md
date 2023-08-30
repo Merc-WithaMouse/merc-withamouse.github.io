@@ -12,6 +12,12 @@ links:
     website: https://learn.microsoft.com/en-us/windows/package-manager/winget
     image: https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RWCZER?ver=1433&q=90&m=6&h=120&w=120&b=%23FFFFFFFF&l=f&o=t&aim=true
     
+    links:
+  - title: Microsoft Learn - Autopilot Manual Registration
+    description: Manually register devices with Windows Autopilot
+    website: https://learn.microsoft.com/en-us/autopilot/add-devices
+    image: https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RWCZER?ver=1433&q=90&m=6&h=120&w=120&b=%23FFFFFFFF&l=f&o=t&aim=true
+    
 menu:
     main: 
         weight: 4
