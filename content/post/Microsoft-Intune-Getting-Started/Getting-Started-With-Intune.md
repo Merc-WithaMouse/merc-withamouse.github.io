@@ -41,8 +41,8 @@ tags:
 - Review the settings and click Create
 
 # How to enroll a device into Intune?
-[Windows 10/11](https://jannikreinhard.com/2021/07/17/setup-a-windows-autopilot-test-lab/)
-[MacOS](https://jannikreinhard.com/2022/06/18/getting-started-with-mac-management-in-microsoft-intune/)
+- [Windows 10/11](https://jannikreinhard.com/2021/07/17/setup-a-windows-autopilot-test-lab/)    
+- [MacOS](https://jannikreinhard.com/2022/06/18/getting-started-with-mac-management-in-microsoft-intune/)
 
 # Setup Autopilot Test Lab
 ## Enable the Intune auto-enrollment for all users. 
