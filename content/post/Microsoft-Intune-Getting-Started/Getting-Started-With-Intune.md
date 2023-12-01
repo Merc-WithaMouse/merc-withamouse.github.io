@@ -64,7 +64,9 @@ tags:
 - Enter a group name and select Dynamic Device as Membership type
 - Click on Add dynamic query
 - Click Edit and enter the following filter
-```(device.devicePhysicalIds -any _ -eq "[OrderID]:AutoPilotTest1")```
+```
+(device.devicePhysicalIds -any _ -eq "[OrderID]:AutoPilotTest1")
+```
 - Click Create
 
 - Create a new group as type Assigned
@@ -73,7 +75,9 @@ tags:
 
 - Create a new group called all users & set as type Dynamic
 - Specify the following as filters (Edit Syntax)
-```	(user.surname -ne " 0")```
+```
+(user.surname -ne " 0")
+```
 - Save & click create
 
 - To add a license go to Licenses > Assignments
