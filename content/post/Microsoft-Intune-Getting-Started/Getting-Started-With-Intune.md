@@ -207,3 +207,8 @@ It is also possible to specify a file, a registry value or a script as a require
 - Click Next > Create
 
 
+
+_Run Command provided by reddit for forcing sync of App Poliicies_
+```batch
+intunemanagementextension://syncapp
+```
