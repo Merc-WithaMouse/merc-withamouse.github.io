@@ -169,7 +169,8 @@ Set-ExecutionPolicy Bypass
 ```powershell
 .\IntuneWinAppUtil -c C:\temp\cmtrace\sources\ -s C:\temp\cmtrace\sources\install.bat -o C:\temp\cmtrace
 ```
-_Switches_
+#### _Switches_
+
 -- -c = Folder of the setup files
 -- -s = Setupfile
 -- -o = Output folder for the .intunewin file
@@ -187,12 +188,14 @@ _Switches_
 - Enter the install.bat and deinstall.bat as install/unistall command
 - Change the Device restart behavior to No specific action
 - Click Next
+
 _Hint: If you use an powershell script insert the following command:_
 ```powershell
 %windir%\system32\windowspowershell\v1.0\powershell.exe -executionpolicy bypass -windowstyle hidden -file "File.ps1"
 ```
 - Select 32-bit and 64-bit as Operation system architecture
 - Select a minimum OS Version
+
 _Hints: If you want to specify further requirements, such as minimum free disk space, you can do this in this step.
 It is also possible to specify a file, a registry value or a script as a requirement._
 
@@ -206,9 +209,10 @@ It is also possible to specify a file, a registry value or a script as a require
 - When you click on one of the hyperlinks behind the group you still have possibilities to make some aditional configurations. E.g. the download type for delivery optimization (Foreground or Backround) or you can also hide the installations notifications.
 - Click Next > Create
 
+___
+___
 
-
-_Run Command provided by reddit for forcing sync of App Poliicies_
+_Run Command provided by reddit for forcing sync of App Poliicies:_
 ```batch
 intunemanagementextension://syncapp
 ```
