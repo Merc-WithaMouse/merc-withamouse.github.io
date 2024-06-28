@@ -38,9 +38,9 @@ draft: true
 _This text_ is italic
 
 <!-- Strong -->
-**This text** is italic
+**This text** is Bold
 
-__This text__ is italic
+__This text__ is Bold
 
 <!-- Strikethrough -->
 ~ Test  ~ <!-- Remove Spaces -->
