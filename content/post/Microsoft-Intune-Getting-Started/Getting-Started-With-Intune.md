@@ -210,7 +210,6 @@ It is also possible to specify a file, a registry value or a script as a require
 - Click Next > Create
 
 ___
-___
 
 _Run Command provided by reddit for forcing sync of App Poliicies:_
 ```batch
