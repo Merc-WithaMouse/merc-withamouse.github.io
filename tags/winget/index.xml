@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Winget on ShellCode Saturdays</title><link>https://www.shellcodesaturdays.co.uk/tags/winget/</link><description>Recent content in Winget on ShellCode Saturdays</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 19 Aug 2023 06:45:00 +0100</lastBuildDate><atom:link href="https://www.shellcodesaturdays.co.uk/tags/winget/index.xml" rel="self" type="application/rss+xml"/><item><title>Quick Dive: Managing Applications With Winget</title><link>https://www.shellcodesaturdays.co.uk/p/quick-dive-managing-applications-with-winget/</link><pubDate>Sat, 19 Aug 2023 06:45:00 +0100</pubDate><guid>https://www.shellcodesaturdays.co.uk/p/quick-dive-managing-applications-with-winget/</guid><description>&lt;img src="https://www.shellcodesaturdays.co.uk/post/Getting-To-Know-Winget/Winget-Help.PNG" alt="Featured image of post Quick Dive: Managing Applications With Winget" />&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>Happy Saturday! Welcome back to another blog post. In this edition, we&amp;rsquo;ll be taking a short break from OneDrive to have a quick dive into managing applications using the command line tool &lt;a class="link" href="https://learn.microsoft.com/en-us/windows/package-manager/winget/" target="_blank" rel="noopener"
+>winget&lt;/a> - Microsoft&amp;rsquo;s &lt;em>&amp;ldquo;Client Interface to the Windows Package Manager service&amp;rdquo;&lt;/em>.&lt;/p>
+&lt;p>If you&amp;rsquo;re looking for another way to install, update, and uninstall software on Windows, you&amp;rsquo;re in the right place. Let&amp;rsquo;s get started!&lt;/p>
+&lt;h2 id="checking-if-winget-is-installed">Checking if Winget is Installed
+&lt;/h2>&lt;p>Winget is supported on &lt;strong>&lt;em>Windows 10 1709 (build 16299) or later&lt;/em>&lt;/strong>. Before we jump in, let&amp;rsquo;s make sure it&amp;rsquo;s installed in your environment. You can easily check by opening your command prompt or PowerShell and typing the following:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-help&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>or&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="p">-?&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>If Winget is installed, you&amp;rsquo;ll see a helpful command summary along with various options and commands that you can use.&lt;/p>
+&lt;p>&lt;strong>An important note from Microsoft on this:&lt;/strong> &lt;em>The winget tool will not be available until you have logged into Windows as a user for the first time, triggering Microsoft Store to register Windows Package Manager as part of an asynchronous process. If you have recently logged in as a user for the first time and find that winget is not yet available, you can open PowerShell and enter the following command to request this winget registration:&lt;/em> &lt;code>Add-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe&lt;/code>&lt;/p>
+&lt;h2 id="installing-the-latest-version-of-winget">Installing the Latest Version of Winget
+&lt;/h2>&lt;p>If you&amp;rsquo;re missing Winget or want to ensure you have the latest version, you can install it using the following command from Microsoft:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$progressPreference&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s1">&amp;#39;silentlyContinue&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Write-Information&lt;/span> &lt;span class="s2">&amp;#34;Downloading WinGet and its dependencies...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Invoke-WebRequest&lt;/span> &lt;span class="n">-Uri&lt;/span> &lt;span class="n">https&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">//&lt;/span>&lt;span class="n">aka&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ms&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">getwinget&lt;/span> &lt;span class="n">-OutFile&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">DesktopAppInstaller_8wekyb3d8bbwe&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">msixbundle&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Invoke-WebRequest&lt;/span> &lt;span class="n">-Uri&lt;/span> &lt;span class="n">https&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">//&lt;/span>&lt;span class="n">aka&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ms&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">VCLibs&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">x64&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">14&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">00&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Desktop&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">appx&lt;/span> &lt;span class="n">-OutFile&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">VCLibs&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">x64&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">14&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">00&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Desktop&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">appx&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Invoke-WebRequest&lt;/span> &lt;span class="n">-Uri&lt;/span> &lt;span class="n">https&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">//&lt;/span>&lt;span class="n">github&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">com&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">microsoft&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="nb">microsoft-ui&lt;/span>&lt;span class="n">-xaml&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">releases&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">download&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">v2&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">7&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="mf">3&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">UI&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Xaml&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">2&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">7&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">x64&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">appx&lt;/span> &lt;span class="n">-OutFile&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">UI&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Xaml&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">2&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">7&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">x64&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">appx&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Add-AppxPackage&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">VCLibs&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">x64&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">14&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">00&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Desktop&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">appx&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Add-AppxPackage&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">UI&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Xaml&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">2&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">7&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">x64&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">appx&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Add-AppxPackage&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">DesktopAppInstaller_8wekyb3d8bbwe&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">msixbundle&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>You could also install &amp;ldquo;App Installer&amp;rdquo; through the &lt;a class="link" href="https://www.microsoft.com/p/app-installer/9nblggh4nns1#activetab=pivot:overviewtab" target="_blank" rel="noopener"
+>Microsoft Store&lt;/a> to get to the same outcome.&lt;/p>
+&lt;h2 id="navigating-available-command-line-options">Navigating Available Command Line Options
+&lt;/h2>&lt;p>Winget offers an array of powerful command-line options that enable you to perform various tasks. To explore them in detail, you can use the following command:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="p">-?&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>This will provide you with a handy list of commands, Each with their own context relevant options:&lt;/p>
+&lt;p>&lt;img src="https://www.shellcodesaturdays.co.uk/content/post/Getting-To-Know-Winget/WingetSwitches.PNG"
+loading="lazy"
+alt="Winget Help Output - Available Commands"
+>&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>To get more details on any specific commands available options, pass them the help argument. &lt;code>[-?]&lt;/code>&lt;/p>
+&lt;p>for example, &lt;code>winget install -?&lt;/code> would return the relevant options realating to installation. Some of these that are going to be relevant to us shortly are:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Install Option&lt;/th>
+&lt;th>Description&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&amp;ndash;id&lt;/td>
+&lt;td>Filter results by id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;ndash;name&lt;/td>
+&lt;td>Filter results by name&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-h,&amp;ndash;silent&lt;/td>
+&lt;td>Request silent installation&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;ndash;accept-package-agreements&lt;/td>
+&lt;td>Accept all licenseagreements for packages&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;ndash;disable-interactivity&lt;/td>
+&lt;td>Disable interactive prompts&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="searching-for-packages">Searching for Packages
+&lt;/h2>&lt;p>Finding packages with Winget is simple. If you&amp;rsquo;re looking for, let&amp;rsquo;s say, Google Chrome, you can use the following command:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">search&lt;/span> &lt;span class="n">Chrome&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>This will present you with a list of matching packages, along with their IDs, versions, and sources.&lt;/p>
+&lt;h2 id="getting-package-information">Getting Package Information
+&lt;/h2>&lt;p>Curious about the details of a specific package? You can use the &lt;code>show&lt;/code> command to retrieve comprehensive information. For instance, to get details about Google Chrome, you can use:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">show&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-id&lt;/span> &lt;span class="n">Google&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Chrome&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>It&amp;rsquo;s a good idea to use the &amp;lsquo;Show&amp;rsquo; command to verify the package you are interacting with, is what you think it is.&lt;/p>
+&lt;h2 id="silently-installing-a-package">Silently Installing a Package
+&lt;/h2>&lt;p>Sometimes you might want to install packages without any prompts. To do so, use the &lt;code>--silent&lt;/code> flag. For example:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-id&lt;/span> &lt;span class="n">Google&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Chrome&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-silent&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="silently-upgrading-all-packages">Silently Upgrading All Packages
+&lt;/h2>&lt;p>To keep your applications up to date without manual intervention, use the &lt;code>upgrade&lt;/code> command with the following options:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">upgrade&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-all&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-uninstall-previous&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-force&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-accept-package-agreements&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-accept-source-agreements&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-silent&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-disable-interactivity&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="scripting-winget">Scripting winget
+&lt;/h2>&lt;p>Microsoft provides an &lt;a class="link" href="https://learn.microsoft.com/en-us/windows/package-manager/winget/#scripting-winget" target="_blank" rel="noopener"
+>Example Bash script&lt;/a> that can install packages one after another using Winget.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">@echo&lt;/span> &lt;span class="n">off&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Echo &lt;/span>&lt;span class="n">Install&lt;/span> &lt;span class="n">Powertoys&lt;/span> &lt;span class="n">and&lt;/span> &lt;span class="n">Terminal&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">REM&lt;/span> &lt;span class="n">Powertoys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Powertoys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="k">%&lt;/span>&lt;span class="n">ERRORLEVEL&lt;/span>&lt;span class="p">%&lt;/span> &lt;span class="n">EQU&lt;/span> &lt;span class="mf">0&lt;/span> &lt;span class="nb">Echo &lt;/span>&lt;span class="n">Powertoys&lt;/span> &lt;span class="n">installed&lt;/span> &lt;span class="n">successfully&lt;/span>&lt;span class="p">.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">REM&lt;/span> &lt;span class="n">Terminal&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">WindowsTerminal&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="k">%&lt;/span>&lt;span class="n">ERRORLEVEL&lt;/span>&lt;span class="p">%&lt;/span> &lt;span class="n">EQU&lt;/span> &lt;span class="mf">0&lt;/span> &lt;span class="nb">Echo &lt;/span>&lt;span class="n">Terminal&lt;/span> &lt;span class="n">installed&lt;/span> &lt;span class="n">successfully&lt;/span>&lt;span class="p">.&lt;/span> &lt;span class="k">%&lt;/span>&lt;span class="n">ERRORLEVEL&lt;/span>&lt;span class="p">%&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>An important note from Microsoft on this:&lt;/strong> &lt;em>When scripted, winget will launch the applications in the specified order. When an installer returns success or failure, winget will launch the next installer. If an installer launches another process, it is possible that it will return to winget prematurely. This will cause winget to install the next installer before the previous installer has completed.&lt;/em>&lt;/p>
+&lt;h2 id="silently-installing-multiple-specific-packages-one-liner">Silently Installing Multiple Specific Packages (One Liner)
+&lt;/h2>&lt;p>If you want to automate the installation of a specific set of packages, you can use a script like this:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-id&lt;/span> &lt;span class="s2">&amp;#34;7zip.7zip&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;Adobe.Acrobat.Reader.64-bit&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;Zoom.Zoom&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;Notepad++.Notepad++&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;Google.Chrome&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;Mozilla.Firefox&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;VideoLAN.VLC&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;Egnyte.EgnyteDesktopApp&amp;#34;&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-silent&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-disable-interactivity&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-accept-source-agreements&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-accept-package-agreements&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h1 id="listing-installed-packages">Listing Installed Packages
+&lt;/h1>&lt;p>You can get a list of installed packages using the command:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">list&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>This command will output a table of installed packages and properties such as &lt;code>Name, Id, Version&lt;/code> &amp;amp; &lt;code>Available Source&lt;/code>.&lt;/p>
+&lt;p>Interestingly, this command will even display packages that were not originally installed through Windows Package Manager.&lt;/p>
+&lt;h2 id="silently-uninstalling-a-package">Silently Uninstalling a Package
+&lt;/h2>&lt;p>Removing packages silently is just as easy. For example, to silently uninstall Google Chrome:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">uninstall&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-id&lt;/span> &lt;span class="n">Google&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Chrome&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-silent&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>With these Winget commands and techniques, you have the power to manage your applications using Microsofts own package manager.&lt;/p>
+&lt;p>That&amp;rsquo;s it for today! I hope this quick dive into managing applications with Winget proves helpful. Until next time, happy coding and exploring! 🚀&lt;/p>
+&lt;h3 id="_automate-and-script-away---happy-shellcode-saturday_">&lt;em>Automate and script away - Happy Shellcode Saturday!&lt;/em>
+&lt;/h3></description></item></channel></rss>
