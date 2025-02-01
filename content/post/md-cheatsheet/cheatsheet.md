@@ -206,3 +206,14 @@ hugo server --minify --buildDrafts --navigateToChanged
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 {{< figure src="image.jpg" title="An elephant at sunset" >}}
 {{< /quote >}}
+
+### test Author quote block
+> The secret to creativity is knowing how to hide your sources. 
+> -- <cite>[Albert Einstein][1]</cite>
+
+[1]: http://www.quotedb.com/quotes/2112
+
+### test Author quote block
+> Test-driven development (TDD) is a software development process that relies on the repetition of a very short development cycle: requirements are turned into very specific test cases, then the software is improved to pass the new tests, only. 
+>
+> --- [Test-driven development. (2016, November 20). In Wikipedia, The Free Encyclopedia. Retrieved 23:45, November 20, 2016](https://en.wikipedia.org/w/index.php?title=Test-driven_development&oldid=750634597)
