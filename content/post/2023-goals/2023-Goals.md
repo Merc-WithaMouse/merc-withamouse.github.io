@@ -5,7 +5,7 @@ slug: 2023-goals
 date: 2023-04-17T07:25:04Z
 image: "/post/2023-goals/checkmarkBanner.png"
 author: Rob
-hidden: false
+hidden: true
 comments: true
 draft: false
 toc: false
