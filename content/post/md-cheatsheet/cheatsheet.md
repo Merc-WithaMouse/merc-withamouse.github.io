@@ -18,6 +18,7 @@ draft: true
 `hugo new post/md-cheatsheet/cheatsheet.md`
 
 ### Preview Drafts, Scheduled and Expired Posts
+## (Go to site ROOT folder in terminal, i.e. C:\Users\Haze\Documents\GitHub\merc-withamouse.github.io)
 `hugo Server --buildDrafts    # or -D`  
 `hugo Server --buildExpired   # or -E`  
 `hugo Server --buildFuture    # or -F`  
