@@ -1,7 +1,8 @@
 # Change baseurl before deploy
 baseurl = "https://www.shellcodesaturdays.co.uk"
 languageCode = "en-us"
-paginate = 5
+[pagination]
+  pagerSize = 5
 title = "ShellCode Saturdays"
 
 # Theme i18n support
