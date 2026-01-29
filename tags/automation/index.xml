@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Automation on ShellCode Saturdays</title><link>https://www.shellcodesaturdays.co.uk/tags/automation/</link><description>Recent content in Automation on ShellCode Saturdays</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 22 Apr 2023 14:03:47 +0100</lastBuildDate><atom:link href="https://www.shellcodesaturdays.co.uk/tags/automation/index.xml" rel="self" type="application/rss+xml"/><item><title>Corporate Lockscreen Deployment</title><link>https://www.shellcodesaturdays.co.uk/p/corporate-lockscreen-deployment/</link><pubDate>Sat, 22 Apr 2023 14:03:47 +0100</pubDate><guid>https://www.shellcodesaturdays.co.uk/p/corporate-lockscreen-deployment/</guid><description>&lt;img src="https://www.shellcodesaturdays.co.uk/post/Corporate-Lockscreen-Deployment-Script/MicrosoftPowershell_.PNG" alt="Featured image of post Corporate Lockscreen Deployment" />&lt;h3 id="so-lets-start-checking-off-some-of-the-goals-outlined-in-my-previous-post">So, lets start checking off some of the goals outlined in my previous post&amp;hellip;
+&lt;/h3>&lt;p>At the MSP where I work, we configure a fair amount of Windows computers &lt;em>(like many others in the industry)&lt;/em>.&lt;/p>
+&lt;p>I have already created a configuration script that does most of the heavy lifting. This script is due a massive overhaul but this can wait. For now, I need to create a function that sets the background wallpaper and lockscreen images for all users.&lt;/p>
+&lt;p>Previously when I have looked into this, I have come across &lt;em>&amp;lsquo;Personalization CSP&amp;rsquo;&lt;/em> in Microsoft documentation but hit a roadblock when i found that this was restricted to Education and Enterprise SKUs only.&lt;/p>
+&lt;p>I recently saw in a post on Reddit &lt;em>(I dont remember what post but if i find it i will link here)&lt;/em> that this is no longer the case. Looking at the documentation here: &lt;a class="link" href="https://learn.microsoft.com/en-us/windows/client-management/mdm/personalization-csp" target="_blank" rel="noopener"
+>Microsoft - Personalisation CSP&lt;/a>, the post was correct.&lt;/p>
+&lt;h4 id="lets-get-started-then">Lets get started then&amp;hellip;
+&lt;/h4>&lt;p>Unfortunately, this documentation does not include any reference on application via registry but luckily, a quick Google search tells me what keys and values will be needed. So thats half the battle done.&lt;/p>
+&lt;p>First off, we need to create the following registry key:
+&lt;em>&amp;quot;&lt;code>HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP&lt;/code>&amp;quot;&lt;/em>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Create PersonalizationCSP Registry Key&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-Item&lt;/span> &lt;span class="n">HKLM&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">SOFTWARE&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">Microsoft&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">Windows&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">CurrentVersion&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">PersonalizationCSP&lt;/span> &lt;span class="n">-Force&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Next, we&amp;rsquo;ll need to declare some variables to contain the registry key path and image files.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Declare Variables &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$RegPath&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$BackgroundImage&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\Images\Background.png&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\Images\Background.png&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Now, we can set the registry key values. We&amp;rsquo;ll start with the lockscreen values.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Set Lockscreen Registry Keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImagePath&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImageUrl&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImageStatus&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="mf">1&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">DWORD&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>And finally, the desktop background image values.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c">#Background Wallpaper Registry Keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImagePath&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$Backgroundimage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImageUrl&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$Backgroundimage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImageStatus&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="mf">1&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">DWORD&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>To finish this up, we can bundle all these components together to form a simple function that we can implement in the configuration script mentioned earlier.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">function&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">Set-CorporateLockScreen&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Create PersonalizationCSP Registry Key&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-Item&lt;/span> &lt;span class="n">HKLM&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">SOFTWARE&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">Microsoft&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">Windows&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">CurrentVersion&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">PersonalizationCSP&lt;/span> &lt;span class="n">-Force&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Declare Variables&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$RegPath&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$BackgroundImage&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\Images\Background.png&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\Images\Background.png&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Set Lockscreen Registry Keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImagePath&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImageUrl&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImageStatus&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="mf">1&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">DWORD&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">#Background Wallpaper Registry Keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImagePath&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$Backgroundimage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImageUrl&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$Backgroundimage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImageStatus&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="mf">1&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">DWORD&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Calling this function in a test environment and then restarting the endpoint, I can see the specified images have been applied as the background wallpaper &amp;amp; lockscreen as desired.&lt;/p>
+&lt;p>This does prevent standard users from changing their background and lockscreens, so i may look for a less restrictive way to achieve this but for now, this&amp;rsquo;ll do.&lt;/p>
+&lt;hr>
+&lt;h4 id="easy-enough-lets-go-for-bonus-points">Easy enough, lets go for bonus points&amp;hellip;
+&lt;/h4>&lt;p>To save from having to name our image files a generic name for all our clients, it would be helpfult to be able to declare the image &amp;ldquo;On the fly&amp;rdquo;. If this can be achieved with a familiar file explorer &amp;ldquo;Browse&amp;rdquo; window, even better.&lt;/p>
+&lt;p>Back to Google I go.&lt;/p>
+&lt;p>Again, after a short search I came across an article that appears to fit the bill: &lt;a class="link" href="https://4sysops.com/archives/how-to-create-an-open-file-folder-dialog-box-with-powershell/" target="_blank" rel="noopener"
+>4Sysops - How to create an open file dialog with PowerShell&lt;/a>&lt;/p>
+&lt;p>So according to the article, to start off, we will need to load the System.Windows.Forms assembly.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Load the System.Windows.Forms assembly &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Add-Type&lt;/span> &lt;span class="n">-AssemblyName&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Next, we will create a Open File Dialog instance.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Instantiate an OpenFileDialog object using New-Object.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$FileBrowser&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">New-Object&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">OpenFileDialog&lt;/span> &lt;span class="n">-Property&lt;/span> &lt;span class="vm">@&lt;/span>&lt;span class="p">{&lt;/span> &lt;span class="n">InitialDirectory&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>If we want, we can even restrict the file type that can be selected.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$FileBrowser&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">New-Object&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">OpenFileDialog&lt;/span> &lt;span class="n">-Property&lt;/span> &lt;span class="vm">@&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">InitialDirectory&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="no">Environment&lt;/span>&lt;span class="p">]::&lt;/span>&lt;span class="n">GetFolderPath&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;Desktop&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">Filter&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s1">&amp;#39;Documents (*.docx)|*.docx|SpreadSheet (*.xlsx)|*.xlsx&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>To be more appropriate to our needs, lets filter to images instead.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$FileBrowser&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">New-Object&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">OpenFileDialog&lt;/span> &lt;span class="n">-Property&lt;/span> &lt;span class="vm">@&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">InitialDirectory&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="no">Environment&lt;/span>&lt;span class="p">]::&lt;/span>&lt;span class="n">GetFolderPath&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;Desktop&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">Filter&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s1">&amp;#39;Images (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Finally, we just need to display the dialog instance.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Display the Browse dialog&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="vm">$null&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nv">$FileBrowser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">ShowDialog&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>We can then, yet again wrap this into a simple function which can be implemented into scripts as needed.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">function&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">Get-OpenFileDialog&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Load the System.Windows.Forms assembly &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">Add-Type&lt;/span> &lt;span class="n">-AssemblyName&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Instantiate an OpenFileDialog object using New-Object.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$FileBrowser&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">New-Object&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">OpenFileDialog&lt;/span> &lt;span class="n">-Property&lt;/span> &lt;span class="vm">@&lt;/span>&lt;span class="p">{&lt;/span> &lt;span class="n">InitialDirectory&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Display the Browse dialog&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="vm">$null&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nv">$FileBrowser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">ShowDialog&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$SelectedFile&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$FileBrowser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">FileName&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>And there we have it. When this is ran, the familiar browse or open dialog is produced. A file can then be selected, which will be stored in OpenFileDialog.&lt;/p>
+&lt;p>If we piece these two functions together, we have a working solution for deploying corporate lock screen and desktop images, which we can implement into our main Windows configuration script.&lt;/p>
+&lt;p>Something like this should do&amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">function&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">Get-OpenFileDialog&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Load the System.Windows.Forms assembly.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">Add-Type&lt;/span> &lt;span class="n">-AssemblyName&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Instantiate an OpenFileDialog object using New-Object.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$FileBrowser&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">New-Object&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">OpenFileDialog&lt;/span> &lt;span class="n">-Property&lt;/span> &lt;span class="vm">@&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">InitialDirectory&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">Filter&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s1">&amp;#39;Images (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Display the Browse dialog.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="vm">$null&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nv">$FileBrowser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">ShowDialog&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$SelectedFile&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$FileBrowser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">FileName&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$SelectedFile&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">function&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">Set-CorporateLockScreen&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Create PersonalizationCSP Registry Key.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-Item&lt;/span> &lt;span class="n">HKLM&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">SOFTWARE&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">Microsoft&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">Windows&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">CurrentVersion&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">PersonalizationCSP&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Declare Variables.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">Write-Host&lt;/span> &lt;span class="s2">&amp;#34;Please Select an Image File for the Background Image.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$BackgroundImage&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nb">Get-OpenFileDialog&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">Write-Host&lt;/span> &lt;span class="s2">&amp;#34;Please Select an Image File for the Lockscreen Image.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nb">Get-OpenFileDialog&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Set Lockscreen Registry Keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImagePath&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImageUrl&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImageStatus&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="mf">1&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">DWORD&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c">#Background Wallpaper Registry Keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImagePath&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$Backgroundimage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImageUrl&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$Backgroundimage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImageStatus&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="mf">1&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">DWORD&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>After adding this to our main configuration script, we can call the function &lt;code>Set-CorporateLockScreen&lt;/code> in the execution section. We will then be prompted to select the files for the lockscreen and background and finally the registry keys will be applied.&lt;/p>
+&lt;p>Part of the standard workflow &lt;em>(when using the script I created some time ago)&lt;/em> is already to restart the endpoint manualy upon script completion. As such, we do not need to consider this in these functions. If we were implementing these functions elsewhere, a system restart would need to be factored in.&lt;/p>
+&lt;h3 id="_automate-and-script-away---happy-shellcode-saturday_">&lt;em>Automate and script away - Happy Shellcode Saturday!&lt;/em>
+&lt;/h3></description></item></channel></rss>

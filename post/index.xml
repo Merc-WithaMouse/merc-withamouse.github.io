@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on ShellCode Saturdays</title><link>https://www.shellcodesaturdays.co.uk/post/</link><description>Recent content in Posts on ShellCode Saturdays</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 19 Aug 2023 06:45:00 +0100</lastBuildDate><atom:link href="https://www.shellcodesaturdays.co.uk/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Quick Dive: Managing Applications With Winget</title><link>https://www.shellcodesaturdays.co.uk/p/quick-dive-managing-applications-with-winget/</link><pubDate>Sat, 19 Aug 2023 06:45:00 +0100</pubDate><guid>https://www.shellcodesaturdays.co.uk/p/quick-dive-managing-applications-with-winget/</guid><description>&lt;img src="https://www.shellcodesaturdays.co.uk/post/Getting-To-Know-Winget/Winget-Help.PNG" alt="Featured image of post Quick Dive: Managing Applications With Winget" />&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>Happy Saturday! Welcome back to another blog post. In this edition, we&amp;rsquo;ll be taking a short break from OneDrive to have a quick dive into managing applications using the command line tool &lt;a class="link" href="https://learn.microsoft.com/en-us/windows/package-manager/winget/" target="_blank" rel="noopener"
+>winget&lt;/a> - Microsoft&amp;rsquo;s &lt;em>&amp;ldquo;Client Interface to the Windows Package Manager service&amp;rdquo;&lt;/em>.&lt;/p>
+&lt;p>If you&amp;rsquo;re looking for another way to install, update, and uninstall software on Windows, you&amp;rsquo;re in the right place. Let&amp;rsquo;s get started!&lt;/p>
+&lt;h2 id="checking-if-winget-is-installed">Checking if Winget is Installed
+&lt;/h2>&lt;p>Winget is supported on &lt;strong>&lt;em>Windows 10 1709 (build 16299) or later&lt;/em>&lt;/strong>. Before we jump in, let&amp;rsquo;s make sure it&amp;rsquo;s installed in your environment. You can easily check by opening your command prompt or PowerShell and typing the following:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-help&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>or&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="p">-?&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>If Winget is installed, you&amp;rsquo;ll see a helpful command summary along with various options and commands that you can use.&lt;/p>
+&lt;p>&lt;strong>An important note from Microsoft on this:&lt;/strong> &lt;em>The winget tool will not be available until you have logged into Windows as a user for the first time, triggering Microsoft Store to register Windows Package Manager as part of an asynchronous process. If you have recently logged in as a user for the first time and find that winget is not yet available, you can open PowerShell and enter the following command to request this winget registration:&lt;/em> &lt;code>Add-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe&lt;/code>&lt;/p>
+&lt;h2 id="installing-the-latest-version-of-winget">Installing the Latest Version of Winget
+&lt;/h2>&lt;p>If you&amp;rsquo;re missing Winget or want to ensure you have the latest version, you can install it using the following command from Microsoft:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$progressPreference&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s1">&amp;#39;silentlyContinue&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Write-Information&lt;/span> &lt;span class="s2">&amp;#34;Downloading WinGet and its dependencies...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Invoke-WebRequest&lt;/span> &lt;span class="n">-Uri&lt;/span> &lt;span class="n">https&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">//&lt;/span>&lt;span class="n">aka&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ms&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">getwinget&lt;/span> &lt;span class="n">-OutFile&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">DesktopAppInstaller_8wekyb3d8bbwe&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">msixbundle&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Invoke-WebRequest&lt;/span> &lt;span class="n">-Uri&lt;/span> &lt;span class="n">https&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">//&lt;/span>&lt;span class="n">aka&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ms&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">VCLibs&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">x64&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">14&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">00&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Desktop&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">appx&lt;/span> &lt;span class="n">-OutFile&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">VCLibs&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">x64&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">14&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">00&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Desktop&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">appx&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Invoke-WebRequest&lt;/span> &lt;span class="n">-Uri&lt;/span> &lt;span class="n">https&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">//&lt;/span>&lt;span class="n">github&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">com&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">microsoft&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="nb">microsoft-ui&lt;/span>&lt;span class="n">-xaml&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">releases&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">download&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">v2&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">7&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="mf">3&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">UI&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Xaml&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">2&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">7&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">x64&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">appx&lt;/span> &lt;span class="n">-OutFile&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">UI&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Xaml&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">2&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">7&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">x64&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">appx&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Add-AppxPackage&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">VCLibs&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">x64&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">14&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">00&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Desktop&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">appx&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Add-AppxPackage&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">UI&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Xaml&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">2&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">7&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">x64&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">appx&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Add-AppxPackage&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">DesktopAppInstaller_8wekyb3d8bbwe&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">msixbundle&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>You could also install &amp;ldquo;App Installer&amp;rdquo; through the &lt;a class="link" href="https://www.microsoft.com/p/app-installer/9nblggh4nns1#activetab=pivot:overviewtab" target="_blank" rel="noopener"
+>Microsoft Store&lt;/a> to get to the same outcome.&lt;/p>
+&lt;h2 id="navigating-available-command-line-options">Navigating Available Command Line Options
+&lt;/h2>&lt;p>Winget offers an array of powerful command-line options that enable you to perform various tasks. To explore them in detail, you can use the following command:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="p">-?&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>This will provide you with a handy list of commands, Each with their own context relevant options:&lt;/p>
+&lt;p>&lt;img src="https://www.shellcodesaturdays.co.uk/content/post/Getting-To-Know-Winget/WingetSwitches.PNG"
+loading="lazy"
+alt="Winget Help Output - Available Commands"
+>&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>To get more details on any specific commands available options, pass them the help argument. &lt;code>[-?]&lt;/code>&lt;/p>
+&lt;p>for example, &lt;code>winget install -?&lt;/code> would return the relevant options realating to installation. Some of these that are going to be relevant to us shortly are:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Install Option&lt;/th>
+&lt;th>Description&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&amp;ndash;id&lt;/td>
+&lt;td>Filter results by id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;ndash;name&lt;/td>
+&lt;td>Filter results by name&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-h,&amp;ndash;silent&lt;/td>
+&lt;td>Request silent installation&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;ndash;accept-package-agreements&lt;/td>
+&lt;td>Accept all licenseagreements for packages&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;ndash;disable-interactivity&lt;/td>
+&lt;td>Disable interactive prompts&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="searching-for-packages">Searching for Packages
+&lt;/h2>&lt;p>Finding packages with Winget is simple. If you&amp;rsquo;re looking for, let&amp;rsquo;s say, Google Chrome, you can use the following command:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">search&lt;/span> &lt;span class="n">Chrome&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>This will present you with a list of matching packages, along with their IDs, versions, and sources.&lt;/p>
+&lt;h2 id="getting-package-information">Getting Package Information
+&lt;/h2>&lt;p>Curious about the details of a specific package? You can use the &lt;code>show&lt;/code> command to retrieve comprehensive information. For instance, to get details about Google Chrome, you can use:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">show&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-id&lt;/span> &lt;span class="n">Google&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Chrome&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>It&amp;rsquo;s a good idea to use the &amp;lsquo;Show&amp;rsquo; command to verify the package you are interacting with, is what you think it is.&lt;/p>
+&lt;h2 id="silently-installing-a-package">Silently Installing a Package
+&lt;/h2>&lt;p>Sometimes you might want to install packages without any prompts. To do so, use the &lt;code>--silent&lt;/code> flag. For example:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-id&lt;/span> &lt;span class="n">Google&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Chrome&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-silent&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="silently-upgrading-all-packages">Silently Upgrading All Packages
+&lt;/h2>&lt;p>To keep your applications up to date without manual intervention, use the &lt;code>upgrade&lt;/code> command with the following options:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">upgrade&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-all&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-uninstall-previous&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-force&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-accept-package-agreements&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-accept-source-agreements&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-silent&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-disable-interactivity&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="scripting-winget">Scripting winget
+&lt;/h2>&lt;p>Microsoft provides an &lt;a class="link" href="https://learn.microsoft.com/en-us/windows/package-manager/winget/#scripting-winget" target="_blank" rel="noopener"
+>Example Bash script&lt;/a> that can install packages one after another using Winget.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">@echo&lt;/span> &lt;span class="n">off&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Echo &lt;/span>&lt;span class="n">Install&lt;/span> &lt;span class="n">Powertoys&lt;/span> &lt;span class="n">and&lt;/span> &lt;span class="n">Terminal&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">REM&lt;/span> &lt;span class="n">Powertoys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Powertoys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="k">%&lt;/span>&lt;span class="n">ERRORLEVEL&lt;/span>&lt;span class="p">%&lt;/span> &lt;span class="n">EQU&lt;/span> &lt;span class="mf">0&lt;/span> &lt;span class="nb">Echo &lt;/span>&lt;span class="n">Powertoys&lt;/span> &lt;span class="n">installed&lt;/span> &lt;span class="n">successfully&lt;/span>&lt;span class="p">.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">REM&lt;/span> &lt;span class="n">Terminal&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">Microsoft&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">WindowsTerminal&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="k">%&lt;/span>&lt;span class="n">ERRORLEVEL&lt;/span>&lt;span class="p">%&lt;/span> &lt;span class="n">EQU&lt;/span> &lt;span class="mf">0&lt;/span> &lt;span class="nb">Echo &lt;/span>&lt;span class="n">Terminal&lt;/span> &lt;span class="n">installed&lt;/span> &lt;span class="n">successfully&lt;/span>&lt;span class="p">.&lt;/span> &lt;span class="k">%&lt;/span>&lt;span class="n">ERRORLEVEL&lt;/span>&lt;span class="p">%&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>An important note from Microsoft on this:&lt;/strong> &lt;em>When scripted, winget will launch the applications in the specified order. When an installer returns success or failure, winget will launch the next installer. If an installer launches another process, it is possible that it will return to winget prematurely. This will cause winget to install the next installer before the previous installer has completed.&lt;/em>&lt;/p>
+&lt;h2 id="silently-installing-multiple-specific-packages-one-liner">Silently Installing Multiple Specific Packages (One Liner)
+&lt;/h2>&lt;p>If you want to automate the installation of a specific set of packages, you can use a script like this:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-id&lt;/span> &lt;span class="s2">&amp;#34;7zip.7zip&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;Adobe.Acrobat.Reader.64-bit&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;Zoom.Zoom&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;Notepad++.Notepad++&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;Google.Chrome&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;Mozilla.Firefox&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;VideoLAN.VLC&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;Egnyte.EgnyteDesktopApp&amp;#34;&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-silent&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-disable-interactivity&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-accept-source-agreements&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-accept-package-agreements&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h1 id="listing-installed-packages">Listing Installed Packages
+&lt;/h1>&lt;p>You can get a list of installed packages using the command:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">list&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>This command will output a table of installed packages and properties such as &lt;code>Name, Id, Version&lt;/code> &amp;amp; &lt;code>Available Source&lt;/code>.&lt;/p>
+&lt;p>Interestingly, this command will even display packages that were not originally installed through Windows Package Manager.&lt;/p>
+&lt;h2 id="silently-uninstalling-a-package">Silently Uninstalling a Package
+&lt;/h2>&lt;p>Removing packages silently is just as easy. For example, to silently uninstall Google Chrome:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">winget&lt;/span> &lt;span class="n">uninstall&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-id&lt;/span> &lt;span class="n">Google&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Chrome&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-silent&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>With these Winget commands and techniques, you have the power to manage your applications using Microsofts own package manager.&lt;/p>
+&lt;p>That&amp;rsquo;s it for today! I hope this quick dive into managing applications with Winget proves helpful. Until next time, happy coding and exploring! 🚀&lt;/p>
+&lt;h3 id="_automate-and-script-away---happy-shellcode-saturday_">&lt;em>Automate and script away - Happy Shellcode Saturday!&lt;/em>
+&lt;/h3></description></item><item><title>Deconstructed: Convert OneDrive Files to Online-Only</title><link>https://www.shellcodesaturdays.co.uk/p/deconstructed-convert-onedrive-files-to-online-only/</link><pubDate>Sat, 12 Aug 2023 23:45:00 +0100</pubDate><guid>https://www.shellcodesaturdays.co.uk/p/deconstructed-convert-onedrive-files-to-online-only/</guid><description>&lt;img src="https://www.shellcodesaturdays.co.uk/post/Convert-OneDrive-Files-Online-Only/OneDriveBanner-White.png" alt="Featured image of post Deconstructed: Convert OneDrive Files to Online-Only" />&lt;h2 id="managing-onedrive-converting-files-to-online-only-with-powershell">Managing OneDrive: Converting Files to Online-Only with PowerShell
+&lt;/h2>&lt;blockquote>
+&lt;p>&lt;em>&lt;strong>28/06/2024 - 23.34 | Edit:&lt;/strong> Some of the information provided here is not fully comlpete. Further research has been done and an update is coming soon!&lt;/em>&lt;/p>
+&lt;/blockquote>
+&lt;p>Hello there, another quick one to finish off the day. Let&amp;rsquo;s dive into a quick breakdown of a useful little PowerShell script we stumbled upon in &lt;em>&lt;a class="link" href="https://tech.tristantyson.com/setonedrivefodstatespowershell" target="_blank" rel="noopener"
+>Tristan Tyson&amp;rsquo;s tech blog&lt;/a>&lt;/em> whilst looking into &lt;em>&lt;a class="link" href="https://www.shellcodesaturdays.co.uk/content/post/Get-OneDrive-Sync-Status-Script%5cGet-OneDrive-Sync-Status-Script.md" >Getting OneDrive File States with PowerShell&lt;/a>&lt;/em>. This small but handy script is all about converting your OneDrive &lt;em>(Commercial)&lt;/em> files into online-only mode. This can be scoped for OneDrive &lt;em>(Personal)&lt;/em> files as well.&lt;/p>
+&lt;p>This simple little script could be used to change the attribute of OneDrive files to &lt;em>&amp;lsquo;Cloud Only&amp;rsquo;&lt;/em>, which would free up available disk space as any locally synced files are uploaded to OneDrive.&lt;/p>
+&lt;p>Let&amp;rsquo;s break it down step by step.&lt;/p>
+&lt;h2 id="the-script-streamlining-online-only-conversion">The Script: Streamlining Online-Only Conversion
+&lt;/h2>&lt;p>The script focuses on using PowerShell to set your OneDrive &lt;em>(Commercial)&lt;/em> files as online-only, saving local storage. You can check out the original post &lt;em>&lt;a class="link" href="https://tech.tristantyson.com/setonedrivefodstatespowershell" target="_blank" rel="noopener"
+>here&lt;/a>&lt;/em>, courtesy of Tristan Tyson.&lt;/p>
+&lt;p>Here&amp;rsquo;s the script laid out for you:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">get-childitem&lt;/span> &lt;span class="nv">$ENV:OneDriveCommercial&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="o">-File&lt;/span> &lt;span class="n">-Recurse&lt;/span> &lt;span class="n">-ErrorAction&lt;/span> &lt;span class="n">SilentlyContinue&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Where-Object&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nv">$_&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Attributes&lt;/span> &lt;span class="o">-match&lt;/span> &lt;span class="s1">&amp;#39;ReparsePoint&amp;#39;&lt;/span> &lt;span class="o">-or&lt;/span> &lt;span class="nv">$_&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Attributes&lt;/span> &lt;span class="o">-eq&lt;/span> &lt;span class="s1">&amp;#39;525344&amp;#39;&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">ForEach-Object&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">attrib&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">exe&lt;/span> &lt;span class="nv">$_&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">fullname&lt;/span> &lt;span class="p">+&lt;/span>&lt;span class="n">U&lt;/span> &lt;span class="n">-P&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">s&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="the-breakdown-what-each-part-does">The Breakdown: What Each Part Does
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>Gathering OneDrive Files:&lt;/strong> We start by using &lt;code>Get-ChildItem&lt;/code> to get the OneDrive directory contents &lt;em>(recursively)&lt;/em>. The &lt;code>-File&lt;/code> switch ensures we focus on files, and &lt;code>-Recurse&lt;/code> dives into subdirectories.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Choosing the Right Ones:&lt;/strong> With &lt;code>Where-Object&lt;/code>, we pick files with specific attributes. Those with &amp;lsquo;ReparsePoint&amp;rsquo; or &amp;lsquo;525344&amp;rsquo; attributes are targeted as these attributes relate to locally availabile files &lt;em>(See my previous post: &lt;a class="link" href="https://www.shellcodesaturdays.co.uk/content/post/Get-OneDrive-Sync-Status-Script%5cGet-OneDrive-Sync-Status-Script.md" >Getting OneDrive File States with PowerShell&lt;/a>)&lt;/em>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Making the Change:&lt;/strong> For each chosen file, we employ &lt;code>attrib.exe&lt;/code> to do the magic. The &lt;code>+U -P /s&lt;/code> commands shift the file to online-only mode.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="embrace-streamlined-onedrive-management">Embrace Streamlined OneDrive Management
+&lt;/h2>&lt;p>And there you have it, folks! A straightforward dive into Tristan Tyson&amp;rsquo;s script for transforming OneDrive files into online-only mode. With a few lines of PowerShell, you can streamline your file management, making the most of online storage.&lt;/p>
+&lt;p>Feel free to use this script to optimize your OneDrive experience. Here&amp;rsquo;s to more efficient digital spaces and simplified file management!&lt;/p>
+&lt;hr>
+&lt;p>With this script in your toolkit, you&amp;rsquo;ve got the power to make your OneDrive files online-only and keep things tidy. Stay tuned for more useful script breakdowns and tips!&lt;/p>
+&lt;h4 id="next-time-we-will-look-at-creating-a-dashboard-alert-and-automated-remediation-task-for-use-with-rmm-software-this-will-likely-utilise-elements-of-or-even-combine-this-small-script-we-haev-created-today-and-our-previous-script-to-_get-onedrive-file-sync-statusget-onedrive-sync-status-scriptget-onedrive-sync-status-scriptmd_">&lt;strong>Next time&lt;/strong>: We will look at creating a dashboard alert and automated remediation task for use with RMM software. This will likely utilise elements of or even combine this small script we haev created today and our previous script to &lt;em>&lt;a class="link" href="../Get-OneDrive-Sync-Status-Script/Get-OneDrive-Sync-Status-Script.md" >Get OneDrive File Sync Status&lt;/a>&lt;/em>
+&lt;/h4>&lt;h3 id="_automate-and-script-away---happy-shellcode-saturday_">&lt;em>Automate and script away - Happy Shellcode Saturday!&lt;/em>
+&lt;/h3></description></item><item><title>Getting OneDrive File States with PowerShell</title><link>https://www.shellcodesaturdays.co.uk/p/getting-onedrive-file-states-with-powershell/</link><pubDate>Sat, 12 Aug 2023 04:45:00 +0100</pubDate><guid>https://www.shellcodesaturdays.co.uk/p/getting-onedrive-file-states-with-powershell/</guid><description>&lt;img src="https://www.shellcodesaturdays.co.uk/post/Get-OneDrive-Sync-Status-Script/onedrive-logo-banner.png" alt="Featured image of post Getting OneDrive File States with PowerShell" />&lt;h1 id="navigating-the-world-of-onedrive-file-attributes">Navigating the World of OneDrive File Attributes
+&lt;/h1>&lt;p>In our ever-connected digital landscape, OneDrive has remained a prominent player in the realm of cloud storage and collaboration. Managing files and syncing them across devices is generally effortless, but have you ever wondered about the nitty-gritty details of how OneDrive handles these files locally? Today, we&amp;rsquo;ll unveil the magic of PowerShell and explore how to retrieve and interpret the attributes of local OneDrive files, specifically focusing on their File On Demand &lt;em>(FOD)&lt;/em> states.&lt;/p>
+&lt;h2 id="beggining-our-quest">Beggining Our Quest
+&lt;/h2>&lt;p>My journey began with a simple yet intriguing task: I wanted to create a script that could examine local OneDrive files and extract their attributes, particularly shedding light on their FOD states. After some exploration, I stumbled upon a reference script from &lt;em>&lt;a class="link" href="https://tech.tristantyson.com/setonedrivefodstatespowershell" target="_blank" rel="noopener"
+>Tristan Tyson&amp;rsquo;s tech blog&lt;/a>&lt;/em> that seemed promising.&lt;/p>
+&lt;p>The initial script was straightforward:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">get-childitem&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">ForEach-Object&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">write-host&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$_&lt;/span>&lt;span class="s2"> :&amp;#34;&lt;/span> &lt;span class="nv">$_&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Attributes&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>This script looped through files and displayed their attributes. However, to adapt it for my needs, I needed to focus on OneDrive&amp;rsquo;s specific attributes.&lt;/p>
+&lt;h2 id="the-reference-table-and-adjustments">The Reference Table and Adjustments
+&lt;/h2>&lt;p>The reference script came with a table that associated attribute values with file states:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>File State&lt;/th>
+&lt;th>Attribute&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Cloud-Only&lt;/td>
+&lt;td>5248544&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Always available&lt;/td>
+&lt;td>525344&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Locally Available&lt;/td>
+&lt;td>ReparsePoint&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>However, during my testing phase, I realized that the provided values didn&amp;rsquo;t correctly align with OneDrive&amp;rsquo;s attributes on my machine.&lt;/p>
+&lt;p>I desperately scoured the archives in search of any mention of the elusive attributes but alas, I came up short in this endeavor. So, I rolled up my sleeves and manually tested different sync states to identify the correct attribute values and their corresponding human-readable states.&lt;/p>
+&lt;p>For testing &lt;em>(and ultimately my end goal)&lt;/em>, I took the reference script and adjusted it to drill down to the current users OneDrive &lt;em>(Commercial)&lt;/em> directory. This allowed me &lt;em>(with toggling sync states multiple times)&lt;/em> to identify the different attributes assiociated with different states.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">get-childitem&lt;/span> &lt;span class="nv">$ENV:OneDriveCommercial&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="o">-File&lt;/span> &lt;span class="n">-Recurse&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">ForEach-Object&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">write-host&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$_&lt;/span>&lt;span class="s2"> :&amp;#34;&lt;/span> &lt;span class="nv">$_&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Attributes&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Armed with the information gathered in the testing phase, I then constructed my own reference table.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>File State&lt;/th>
+&lt;th>Attribute&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Cloud-Only&lt;/td>
+&lt;td>5248544&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Always available&lt;/td>
+&lt;td>525344&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Downloading&lt;/td>
+&lt;td>4724256&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Uploading&lt;/td>
+&lt;td>1049632&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Locally Available&lt;/td>
+&lt;td>Archive, ReparsePoint&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Hidden System File&lt;/td>
+&lt;td>1572902&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>There might be additional attributes I didn&amp;rsquo;t come across during my testing phase. I&amp;rsquo;ll keep exploring and updating the reference table here whenever I spot them. For now, I deemed the collected data sufficient to make sense of the attribute values in a way that humans can understand.&lt;/p>
+&lt;h2 id="cracking-the-code-the-finished-script">Cracking the Code: The Finished Script
+&lt;/h2>&lt;p>After traveling so far on this quest, the elements of the script emerged, ready to unveil the OneDrive attributes we sought. To that end, I focused on generating clear and comprehensible results into a table format, leveraging a switch statement and PSCustomObject to complete this final task.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$OneDrivePath&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nv">$ENV:OneDriveCommercial&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$filesInfo&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">Get-ChildItem&lt;/span> &lt;span class="nv">$OneDrivePath&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="o">-File&lt;/span> &lt;span class="n">-Recurse&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">ForEach-Object&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$fileName&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nv">$_&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$attributes&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nv">$_&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Attributes&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$state&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="k">switch&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$attributes&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="mf">5248544&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Cloud-Only&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="mf">525344&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Always Available&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="mf">4724256&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Downloading&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="mf">1049632&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Uploading&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="mf">1572902&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Hidden System File&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;Archive, ReparsePoint&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Locally Available&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">default&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Unknown&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">[&lt;/span>&lt;span class="no">PSCustomObject&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="vm">@&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FileName&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nv">$fileName&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">State&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nv">$state&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$filesInfo&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Format-Table&lt;/span> &lt;span class="n">-AutoSize&lt;/span> &lt;span class="n">-Wrap&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>The script was then tested for its efficiency at gathering the needed information.&lt;/p>
+&lt;p>With this final script, I was able to successfully list the OneDrive file attributes as desired. The script translates OneDrive file attribute values into human-readable states, making it easier than ever to understand the synchronization status of each file.&lt;/p>
+&lt;h2 id="final-thoughts-and-further-explorations">Final Thoughts and Further Explorations
+&lt;/h2>&lt;p>In this exhilarating journey, we ventured into the realm of PowerShell to reveal the attributes of local OneDrive files. Armed with a script that interprets File On Demand states, we&amp;rsquo;ve unlocked a deeper understanding of file synchronization. As we continue our IT expeditions, let&amp;rsquo;s remain curious and ever-ready to explore the intricacies of our digital world.&lt;/p>
+&lt;h4 id="next-time-we-will-look-at-setting-the-sync-state-of-onedrive-files-to-online-onlycontentpostset-onedrive-filesync-cloudonlyset-onedrive-filesync-cloudonlymd-leveraging-their-file-attributes-to-do-so">&lt;strong>Next time&lt;/strong>: We will look at &lt;a class="link" href="%22content/post/Set-OneDrive-FileSync-CloudOnly/Set-OneDrive-FileSync-CloudOnly.md%22" >setting the sync state of OneDrive files to &amp;ldquo;Online-Only&amp;rdquo;&lt;/a> leveraging their file attributes to do so.
+&lt;/h4>&lt;h3 id="_automate-and-script-away---happy-shellcode-saturday_">&lt;em>Automate and script away - Happy Shellcode Saturday!&lt;/em>
+&lt;/h3></description></item><item><title>Corporate Lockscreen Deployment</title><link>https://www.shellcodesaturdays.co.uk/p/corporate-lockscreen-deployment/</link><pubDate>Sat, 22 Apr 2023 14:03:47 +0100</pubDate><guid>https://www.shellcodesaturdays.co.uk/p/corporate-lockscreen-deployment/</guid><description>&lt;img src="https://www.shellcodesaturdays.co.uk/post/Corporate-Lockscreen-Deployment-Script/MicrosoftPowershell_.PNG" alt="Featured image of post Corporate Lockscreen Deployment" />&lt;h3 id="so-lets-start-checking-off-some-of-the-goals-outlined-in-my-previous-post">So, lets start checking off some of the goals outlined in my previous post&amp;hellip;
+&lt;/h3>&lt;p>At the MSP where I work, we configure a fair amount of Windows computers &lt;em>(like many others in the industry)&lt;/em>.&lt;/p>
+&lt;p>I have already created a configuration script that does most of the heavy lifting. This script is due a massive overhaul but this can wait. For now, I need to create a function that sets the background wallpaper and lockscreen images for all users.&lt;/p>
+&lt;p>Previously when I have looked into this, I have come across &lt;em>&amp;lsquo;Personalization CSP&amp;rsquo;&lt;/em> in Microsoft documentation but hit a roadblock when i found that this was restricted to Education and Enterprise SKUs only.&lt;/p>
+&lt;p>I recently saw in a post on Reddit &lt;em>(I dont remember what post but if i find it i will link here)&lt;/em> that this is no longer the case. Looking at the documentation here: &lt;a class="link" href="https://learn.microsoft.com/en-us/windows/client-management/mdm/personalization-csp" target="_blank" rel="noopener"
+>Microsoft - Personalisation CSP&lt;/a>, the post was correct.&lt;/p>
+&lt;h4 id="lets-get-started-then">Lets get started then&amp;hellip;
+&lt;/h4>&lt;p>Unfortunately, this documentation does not include any reference on application via registry but luckily, a quick Google search tells me what keys and values will be needed. So thats half the battle done.&lt;/p>
+&lt;p>First off, we need to create the following registry key:
+&lt;em>&amp;quot;&lt;code>HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP&lt;/code>&amp;quot;&lt;/em>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Create PersonalizationCSP Registry Key&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-Item&lt;/span> &lt;span class="n">HKLM&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">SOFTWARE&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">Microsoft&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">Windows&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">CurrentVersion&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">PersonalizationCSP&lt;/span> &lt;span class="n">-Force&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Next, we&amp;rsquo;ll need to declare some variables to contain the registry key path and image files.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Declare Variables &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$RegPath&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$BackgroundImage&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\Images\Background.png&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\Images\Background.png&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Now, we can set the registry key values. We&amp;rsquo;ll start with the lockscreen values.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Set Lockscreen Registry Keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImagePath&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImageUrl&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImageStatus&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="mf">1&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">DWORD&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>And finally, the desktop background image values.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c">#Background Wallpaper Registry Keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImagePath&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$Backgroundimage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImageUrl&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$Backgroundimage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImageStatus&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="mf">1&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">DWORD&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>To finish this up, we can bundle all these components together to form a simple function that we can implement in the configuration script mentioned earlier.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">function&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">Set-CorporateLockScreen&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Create PersonalizationCSP Registry Key&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-Item&lt;/span> &lt;span class="n">HKLM&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">SOFTWARE&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">Microsoft&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">Windows&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">CurrentVersion&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">PersonalizationCSP&lt;/span> &lt;span class="n">-Force&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Declare Variables&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$RegPath&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$BackgroundImage&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\Images\Background.png&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\Images\Background.png&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Set Lockscreen Registry Keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImagePath&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImageUrl&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImageStatus&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="mf">1&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">DWORD&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">#Background Wallpaper Registry Keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImagePath&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$Backgroundimage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImageUrl&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$Backgroundimage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImageStatus&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="mf">1&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">DWORD&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Calling this function in a test environment and then restarting the endpoint, I can see the specified images have been applied as the background wallpaper &amp;amp; lockscreen as desired.&lt;/p>
+&lt;p>This does prevent standard users from changing their background and lockscreens, so i may look for a less restrictive way to achieve this but for now, this&amp;rsquo;ll do.&lt;/p>
+&lt;hr>
+&lt;h4 id="easy-enough-lets-go-for-bonus-points">Easy enough, lets go for bonus points&amp;hellip;
+&lt;/h4>&lt;p>To save from having to name our image files a generic name for all our clients, it would be helpfult to be able to declare the image &amp;ldquo;On the fly&amp;rdquo;. If this can be achieved with a familiar file explorer &amp;ldquo;Browse&amp;rdquo; window, even better.&lt;/p>
+&lt;p>Back to Google I go.&lt;/p>
+&lt;p>Again, after a short search I came across an article that appears to fit the bill: &lt;a class="link" href="https://4sysops.com/archives/how-to-create-an-open-file-folder-dialog-box-with-powershell/" target="_blank" rel="noopener"
+>4Sysops - How to create an open file dialog with PowerShell&lt;/a>&lt;/p>
+&lt;p>So according to the article, to start off, we will need to load the System.Windows.Forms assembly.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Load the System.Windows.Forms assembly &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Add-Type&lt;/span> &lt;span class="n">-AssemblyName&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Next, we will create a Open File Dialog instance.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Instantiate an OpenFileDialog object using New-Object.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$FileBrowser&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">New-Object&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">OpenFileDialog&lt;/span> &lt;span class="n">-Property&lt;/span> &lt;span class="vm">@&lt;/span>&lt;span class="p">{&lt;/span> &lt;span class="n">InitialDirectory&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>If we want, we can even restrict the file type that can be selected.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$FileBrowser&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">New-Object&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">OpenFileDialog&lt;/span> &lt;span class="n">-Property&lt;/span> &lt;span class="vm">@&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">InitialDirectory&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="no">Environment&lt;/span>&lt;span class="p">]::&lt;/span>&lt;span class="n">GetFolderPath&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;Desktop&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">Filter&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s1">&amp;#39;Documents (*.docx)|*.docx|SpreadSheet (*.xlsx)|*.xlsx&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>To be more appropriate to our needs, lets filter to images instead.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$FileBrowser&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">New-Object&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">OpenFileDialog&lt;/span> &lt;span class="n">-Property&lt;/span> &lt;span class="vm">@&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">InitialDirectory&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="no">Environment&lt;/span>&lt;span class="p">]::&lt;/span>&lt;span class="n">GetFolderPath&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;Desktop&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">Filter&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s1">&amp;#39;Images (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Finally, we just need to display the dialog instance.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Display the Browse dialog&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="vm">$null&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nv">$FileBrowser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">ShowDialog&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>We can then, yet again wrap this into a simple function which can be implemented into scripts as needed.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">function&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">Get-OpenFileDialog&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Load the System.Windows.Forms assembly &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">Add-Type&lt;/span> &lt;span class="n">-AssemblyName&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Instantiate an OpenFileDialog object using New-Object.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$FileBrowser&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">New-Object&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">OpenFileDialog&lt;/span> &lt;span class="n">-Property&lt;/span> &lt;span class="vm">@&lt;/span>&lt;span class="p">{&lt;/span> &lt;span class="n">InitialDirectory&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Display the Browse dialog&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="vm">$null&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nv">$FileBrowser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">ShowDialog&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$SelectedFile&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$FileBrowser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">FileName&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>And there we have it. When this is ran, the familiar browse or open dialog is produced. A file can then be selected, which will be stored in OpenFileDialog.&lt;/p>
+&lt;p>If we piece these two functions together, we have a working solution for deploying corporate lock screen and desktop images, which we can implement into our main Windows configuration script.&lt;/p>
+&lt;p>Something like this should do&amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">function&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">Get-OpenFileDialog&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Load the System.Windows.Forms assembly.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">Add-Type&lt;/span> &lt;span class="n">-AssemblyName&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Instantiate an OpenFileDialog object using New-Object.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$FileBrowser&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">New-Object&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Windows&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Forms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">OpenFileDialog&lt;/span> &lt;span class="n">-Property&lt;/span> &lt;span class="vm">@&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">InitialDirectory&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;C:\&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">Filter&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s1">&amp;#39;Images (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Display the Browse dialog.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="vm">$null&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nv">$FileBrowser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">ShowDialog&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$SelectedFile&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$FileBrowser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">FileName&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$SelectedFile&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">function&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">Set-CorporateLockScreen&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Create PersonalizationCSP Registry Key.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">New-Item&lt;/span> &lt;span class="n">HKLM&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">SOFTWARE&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">Microsoft&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">Windows&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">CurrentVersion&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">PersonalizationCSP&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Declare Variables.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">Write-Host&lt;/span> &lt;span class="s2">&amp;#34;Please Select an Image File for the Background Image.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$BackgroundImage&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nb">Get-OpenFileDialog&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">Write-Host&lt;/span> &lt;span class="s2">&amp;#34;Please Select an Image File for the Lockscreen Image.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nb">Get-OpenFileDialog&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Set Lockscreen Registry Keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImagePath&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImageUrl&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$LockScreenImage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">LockScreenImageStatus&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="mf">1&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">DWORD&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c">#Background Wallpaper Registry Keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImagePath&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$Backgroundimage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImageUrl&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$Backgroundimage&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">New-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$RegPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">DesktopImageStatus&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="mf">1&lt;/span> &lt;span class="n">-PropertyType&lt;/span> &lt;span class="n">DWORD&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Out-Null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>After adding this to our main configuration script, we can call the function &lt;code>Set-CorporateLockScreen&lt;/code> in the execution section. We will then be prompted to select the files for the lockscreen and background and finally the registry keys will be applied.&lt;/p>
+&lt;p>Part of the standard workflow &lt;em>(when using the script I created some time ago)&lt;/em> is already to restart the endpoint manualy upon script completion. As such, we do not need to consider this in these functions. If we were implementing these functions elsewhere, a system restart would need to be factored in.&lt;/p>
+&lt;h3 id="_automate-and-script-away---happy-shellcode-saturday_">&lt;em>Automate and script away - Happy Shellcode Saturday!&lt;/em>
+&lt;/h3></description></item><item><title>Hello World</title><link>https://www.shellcodesaturdays.co.uk/p/hello-world/</link><pubDate>Sat, 15 Apr 2023 17:24:33 +0000</pubDate><guid>https://www.shellcodesaturdays.co.uk/p/hello-world/</guid><description>&lt;img src="https://www.shellcodesaturdays.co.uk/p/hello-world/EarthBanner.jpeg" alt="Featured image of post Hello World" />&lt;h2 id="hello-world">Hello World,
+&lt;/h2>&lt;p>Today, I launch my new blog using Github Pages, Hugo Go and the theme: &lt;a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener"
+>Stack&lt;/a> by &lt;a class="link" href="https://github.com/CaiJimmy/" target="_blank" rel="noopener"
+>CaiJimmy&lt;/a>. I previously tested manually deploying a blog using the dot-hugo theme from &lt;a class="link" href="https://github.com/themefisher/" target="_blank" rel="noopener"
+>Themefisher&lt;/a> which worked great at the time, but for reasons unknown to me, when i attempted to deploy for real, i experienced some critical issues. So after giving it a break and returning the following day, I started afresh, searched for a new theme and came across &lt;a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener"
+>Stack&lt;/a>. So here we are.&lt;/p>
+&lt;h3 id="moving-on">Moving on&amp;hellip;
+&lt;/h3>&lt;p>So, a little about me. I am a IT technician and technology enthusiast. I have been working in the Managed Service Provider space for a little over 6 years. We support businesses from a range of sectors and each have their own nuances and specific requirements.&lt;/p>
+&lt;p>Like all forward thinking technicians should, wherever i see a repeated task, i like to see if i can automate it (Ususally via PowerShell). Thats one of the purposes of this blog. Somewhere that i can document any of the knowledge i aquire along my way and share any helpful automations i may create or find.&lt;/p>
+&lt;p>I used to be a Linux guy and my initial years were spent on Arch/Fedora/Whaterver flavor i chose that at that time. Since working in the MSP space, i have been soley using Windows.&lt;/p>
+&lt;p>The main purpose of this blog is to follow along on my journey as an IT Technician, gaining knowledge on any areas of IT which serve my purpose, including but not limited to: Scripting/Automation, Microsoft 365 Administration, Networking, SecOps, OSINT etc.&lt;/p>
+&lt;hr>
+&lt;p>&lt;em>For more information about the theme used in this blog, check the documentation: &lt;a class="link" href="https://docs.stack.jimmycai.com/" target="_blank" rel="noopener"
+>Stack - Designed for bloggers&lt;/a>&lt;/em>&lt;/p>
+&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://jooinn.com/world-globe-banner.html" target="_blank" rel="noopener"
+>Prawny&lt;/a> on &lt;a class="link" href="https://jooinn.com/world-globe-banner.html" target="_blank" rel="noopener"
+>Jooinn&lt;/a>&lt;/p>
+&lt;/blockquote></description></item></channel></rss>

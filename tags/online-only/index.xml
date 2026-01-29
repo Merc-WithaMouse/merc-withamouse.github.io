@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Online-Only on ShellCode Saturdays</title><link>https://www.shellcodesaturdays.co.uk/tags/online-only/</link><description>Recent content in Online-Only on ShellCode Saturdays</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 12 Aug 2023 23:45:00 +0100</lastBuildDate><atom:link href="https://www.shellcodesaturdays.co.uk/tags/online-only/index.xml" rel="self" type="application/rss+xml"/><item><title>Deconstructed: Convert OneDrive Files to Online-Only</title><link>https://www.shellcodesaturdays.co.uk/p/deconstructed-convert-onedrive-files-to-online-only/</link><pubDate>Sat, 12 Aug 2023 23:45:00 +0100</pubDate><guid>https://www.shellcodesaturdays.co.uk/p/deconstructed-convert-onedrive-files-to-online-only/</guid><description>&lt;img src="https://www.shellcodesaturdays.co.uk/post/Convert-OneDrive-Files-Online-Only/OneDriveBanner-White.png" alt="Featured image of post Deconstructed: Convert OneDrive Files to Online-Only" />&lt;h2 id="managing-onedrive-converting-files-to-online-only-with-powershell">Managing OneDrive: Converting Files to Online-Only with PowerShell
+&lt;/h2>&lt;blockquote>
+&lt;p>&lt;em>&lt;strong>28/06/2024 - 23.34 | Edit:&lt;/strong> Some of the information provided here is not fully comlpete. Further research has been done and an update is coming soon!&lt;/em>&lt;/p>
+&lt;/blockquote>
+&lt;p>Hello there, another quick one to finish off the day. Let&amp;rsquo;s dive into a quick breakdown of a useful little PowerShell script we stumbled upon in &lt;em>&lt;a class="link" href="https://tech.tristantyson.com/setonedrivefodstatespowershell" target="_blank" rel="noopener"
+>Tristan Tyson&amp;rsquo;s tech blog&lt;/a>&lt;/em> whilst looking into &lt;em>&lt;a class="link" href="https://www.shellcodesaturdays.co.uk/content/post/Get-OneDrive-Sync-Status-Script%5cGet-OneDrive-Sync-Status-Script.md" >Getting OneDrive File States with PowerShell&lt;/a>&lt;/em>. This small but handy script is all about converting your OneDrive &lt;em>(Commercial)&lt;/em> files into online-only mode. This can be scoped for OneDrive &lt;em>(Personal)&lt;/em> files as well.&lt;/p>
+&lt;p>This simple little script could be used to change the attribute of OneDrive files to &lt;em>&amp;lsquo;Cloud Only&amp;rsquo;&lt;/em>, which would free up available disk space as any locally synced files are uploaded to OneDrive.&lt;/p>
+&lt;p>Let&amp;rsquo;s break it down step by step.&lt;/p>
+&lt;h2 id="the-script-streamlining-online-only-conversion">The Script: Streamlining Online-Only Conversion
+&lt;/h2>&lt;p>The script focuses on using PowerShell to set your OneDrive &lt;em>(Commercial)&lt;/em> files as online-only, saving local storage. You can check out the original post &lt;em>&lt;a class="link" href="https://tech.tristantyson.com/setonedrivefodstatespowershell" target="_blank" rel="noopener"
+>here&lt;/a>&lt;/em>, courtesy of Tristan Tyson.&lt;/p>
+&lt;p>Here&amp;rsquo;s the script laid out for you:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">get-childitem&lt;/span> &lt;span class="nv">$ENV:OneDriveCommercial&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="o">-File&lt;/span> &lt;span class="n">-Recurse&lt;/span> &lt;span class="n">-ErrorAction&lt;/span> &lt;span class="n">SilentlyContinue&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Where-Object&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nv">$_&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Attributes&lt;/span> &lt;span class="o">-match&lt;/span> &lt;span class="s1">&amp;#39;ReparsePoint&amp;#39;&lt;/span> &lt;span class="o">-or&lt;/span> &lt;span class="nv">$_&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">Attributes&lt;/span> &lt;span class="o">-eq&lt;/span> &lt;span class="s1">&amp;#39;525344&amp;#39;&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">ForEach-Object&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">attrib&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">exe&lt;/span> &lt;span class="nv">$_&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">fullname&lt;/span> &lt;span class="p">+&lt;/span>&lt;span class="n">U&lt;/span> &lt;span class="n">-P&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">s&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="the-breakdown-what-each-part-does">The Breakdown: What Each Part Does
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>Gathering OneDrive Files:&lt;/strong> We start by using &lt;code>Get-ChildItem&lt;/code> to get the OneDrive directory contents &lt;em>(recursively)&lt;/em>. The &lt;code>-File&lt;/code> switch ensures we focus on files, and &lt;code>-Recurse&lt;/code> dives into subdirectories.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Choosing the Right Ones:&lt;/strong> With &lt;code>Where-Object&lt;/code>, we pick files with specific attributes. Those with &amp;lsquo;ReparsePoint&amp;rsquo; or &amp;lsquo;525344&amp;rsquo; attributes are targeted as these attributes relate to locally availabile files &lt;em>(See my previous post: &lt;a class="link" href="https://www.shellcodesaturdays.co.uk/content/post/Get-OneDrive-Sync-Status-Script%5cGet-OneDrive-Sync-Status-Script.md" >Getting OneDrive File States with PowerShell&lt;/a>)&lt;/em>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Making the Change:&lt;/strong> For each chosen file, we employ &lt;code>attrib.exe&lt;/code> to do the magic. The &lt;code>+U -P /s&lt;/code> commands shift the file to online-only mode.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="embrace-streamlined-onedrive-management">Embrace Streamlined OneDrive Management
+&lt;/h2>&lt;p>And there you have it, folks! A straightforward dive into Tristan Tyson&amp;rsquo;s script for transforming OneDrive files into online-only mode. With a few lines of PowerShell, you can streamline your file management, making the most of online storage.&lt;/p>
+&lt;p>Feel free to use this script to optimize your OneDrive experience. Here&amp;rsquo;s to more efficient digital spaces and simplified file management!&lt;/p>
+&lt;hr>
+&lt;p>With this script in your toolkit, you&amp;rsquo;ve got the power to make your OneDrive files online-only and keep things tidy. Stay tuned for more useful script breakdowns and tips!&lt;/p>
+&lt;h4 id="next-time-we-will-look-at-creating-a-dashboard-alert-and-automated-remediation-task-for-use-with-rmm-software-this-will-likely-utilise-elements-of-or-even-combine-this-small-script-we-haev-created-today-and-our-previous-script-to-_get-onedrive-file-sync-statusget-onedrive-sync-status-scriptget-onedrive-sync-status-scriptmd_">&lt;strong>Next time&lt;/strong>: We will look at creating a dashboard alert and automated remediation task for use with RMM software. This will likely utilise elements of or even combine this small script we haev created today and our previous script to &lt;em>&lt;a class="link" href="../Get-OneDrive-Sync-Status-Script/Get-OneDrive-Sync-Status-Script.md" >Get OneDrive File Sync Status&lt;/a>&lt;/em>
+&lt;/h4>&lt;h3 id="_automate-and-script-away---happy-shellcode-saturday_">&lt;em>Automate and script away - Happy Shellcode Saturday!&lt;/em>
+&lt;/h3></description></item></channel></rss>
