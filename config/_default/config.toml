@@ -15,7 +15,7 @@ hasCJKLanguage = false
 
 # Disqus Config
 [params.comments]
-enabled = true
+enabled = false
 provider = "disqus"
 
 [params.comments.disqus]
