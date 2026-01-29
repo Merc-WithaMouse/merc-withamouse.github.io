@@ -13,5 +13,10 @@ DefaultContentLanguage = "en"
 # This will make .Summary and .WordCount behave correctly for CJK languages.
 hasCJKLanguage = false
 
-# Change it to your Disqus shortname before using
-# disqusShortname = "merc-withamouse-github-io"
+# Disqus Config
+[params.comments]
+enabled = true
+provider = "disqus"
+
+[params.comments.disqus]
+shortname = "merc-withamouse-github-io"
