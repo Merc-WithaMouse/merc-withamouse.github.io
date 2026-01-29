@@ -17,7 +17,7 @@ A simple, repeatable procedure for safely updating Hugo and the Stack theme in t
 
 ---
 
-## **1. Pre‑Update Checklist**
+## **1. Pre-Update Checklist**
 
 ### **1.1 Check current versions**
 
