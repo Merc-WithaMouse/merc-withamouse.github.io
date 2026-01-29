@@ -16,6 +16,3 @@ hasCJKLanguage = false
 # Disqus Config
 [params.comments]
 enabled = false
-
-[params.comments.disqus]
-shortname = "merc-withamouse-github-io"
